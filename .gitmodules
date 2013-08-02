@@ -1,0 +1,48 @@
+[submodule "modules/puppetlabs-postgresql"]
+	path = modules/puppetlabs-postgresql
+	url = git@github.com:puppetlabs/puppetlabs-postgresql.git
+[submodule "modules/puppetlabs-stdlib"]
+	path = modules/puppetlabs-stdlib
+	url = git@github.com:puppetlabs/puppetlabs-stdlib.git
+[submodule "modules/python"]
+	path = modules/python
+	url = git@github.com:mangroveorg/puppet-python.git
+[submodule "module/wsgi"]
+	path = module/wsgi
+	url = git@github.com:mangroveorg/puppet-uwsgi.git
+[submodule "module/uwsgi"]
+	path = module/uwsgi
+	url = git@github.com:mangroveorg/puppet-uwsgi.git
+[submodule "modules/uwsgi"]
+	path = modules/uwsgi
+	url = git@github.com:mangroveorg/puppet-uwsgi.git
+[submodule "modules/puppetlabs-firewall"]
+	path = modules/puppetlabs-firewall
+	url = git@github.com:puppetlabs/puppetlabs-firewall.git
+[submodule "modules/concat"]
+	path = modules/concat
+	url = git@github.com:ripienaar/puppet-concat.git
+[submodule "modules/puppet-concat"]
+	path = modules/puppet-concat
+	url = git@github.com:ripienaar/puppet-concat.git
+[submodule "modules/puppet-apt"]
+	path = modules/puppet-apt
+	url = git@github.com:puppetlabs/puppetlabs-apt.git
+[submodule "modules/puppetlabs-vcsrepo"]
+	path = modules/puppetlabs-vcsrepo
+	url = git@github.com:puppetlabs/puppetlabs-vcsrepo.git
+[submodule "modules/puppet-jenkins"]
+	path = modules/puppet-jenkins
+	url = git@github.com:jenkinsci/puppet-jenkins.git
+[submodule "modules/puppetlabs-java"]
+	path = modules/puppetlabs-java
+	url = git@github.com:puppetlabs/puppetlabs-java.git
+[submodule "modules/puppet-tomcat"]
+	path = modules/puppet-tomcat
+	url = git@github.com:example42/puppet-tomcat.git
+[submodule "modules/couchdb"]
+	path = modules/couchdb
+	url = git@github.com:bdossantos/puppet-module-couchdb.git
+[submodule "modules/puppet-module-couchdb"]
+	path = modules/couchdb
+	url = git@github.com:bdossantos/puppet-module-couchdb.git
