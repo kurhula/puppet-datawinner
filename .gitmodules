@@ -31,6 +31,6 @@
 [submodule "modules/puppet-tomcat"]
 	path = modules/puppet-tomcat
 	url = git://github.com:example42/puppet-tomcat.git
-[submodule "modules/couchdb"]
-	path = modules/couchdb
-	url = git://github.com:bdossantos/puppet-module-couchdb.git
+[submodule "modules/puppet-module-couchdb"]
+        path = modules/puppet-module-couchdb
+	url = git@github.com:bdossantos/puppet-module-couchdb.git
