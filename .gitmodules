@@ -1,8 +1,8 @@
-[submodule "modules/puppetlabs-postgresql"]
-	path = modules/puppetlabs-postgresql
+[submodule "modules/postgresql"]
+	path = modules/postgresql
 	url = https://github.com/puppetlabs/puppetlabs-postgresql.git
-[submodule "modules/puppetlabs-stdlib"]
-	path = modules/puppetlabs-stdlib
+[submodule "modules/stdlib"]
+	path = modules/stdlib
 	url = https://github.com/puppetlabs/puppetlabs-stdlib.git
 [submodule "modules/python"]
 	path = modules/python
@@ -10,27 +10,27 @@
 [submodule "modules/uwsgi"]
 	path = modules/uwsgi
 	url = https://github.com/mangroveorg/puppet-uwsgi.git
-[submodule "modules/puppetlabs-firewall"]
-	path = modules/puppetlabs-firewall
+[submodule "modules/firewall"]
+	path = modules/firewall
 	url = https://github.com/puppetlabs/puppetlabs-firewall.git
-[submodule "modules/puppet-concat"]
-	path = modules/puppet-concat
+[submodule "modules/concat"]
+	path = modules/concat
 	url = https://github.com/ripienaar/puppet-concat.git
-[submodule "modules/puppet-apt"]
-	path = modules/puppet-apt
-	url = https://github.com/puppetlabs/puppetlabs-apt.git
-[submodule "modules/puppetlabs-vcsrepo"]
-	path = modules/puppetlabs-vcsrepo
+[submodule "modules/vcsrepo"]
+	path = modules/vcsrepo
 	url = https://github.com/puppetlabs/puppetlabs-vcsrepo.git
-[submodule "modules/puppet-jenkins"]
-	path = modules/puppet-jenkins
+[submodule "modules/jenkins"]
+	path = modules/jenkins
 	url = https://github.com/jenkinsci/puppet-jenkins.git
-[submodule "modules/puppetlabs-java"]
-	path = modules/puppetlabs-java
+[submodule "modules/java"]
+	path = modules/java
 	url = https://github.com/puppetlabs/puppetlabs-java.git
-[submodule "modules/puppet-tomcat"]
-	path = modules/puppet-tomcat
+[submodule "modules/tomcat"]
+	path = modules/tomcat
 	url = https://github.com/example42/puppet-tomcat.git
-[submodule "modules/puppet-module-couchdb"]
-        path = modules/puppet-module-couchdb
+[submodule "modules/couchdb"]
+	path = modules/couchdb
 	url = https://github.com/bdossantos/puppet-module-couchdb.git
+[submodule "modules/apt"]
+	path = modules/apt
+	url = https://github.com/puppetlabs/puppetlabs-apt.git
