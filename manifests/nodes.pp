@@ -1,4 +1,3 @@
-
 node base_system{
   package { 'git-core':
     ensure => installed,
@@ -24,7 +23,7 @@ node base_system{
 	}
 		
 	
-  include postgresql
+  class {"postgresql":}
   class { 'java':
   distribution => 'jdk',
   version      => 'latest',
@@ -43,14 +42,14 @@ node base_system{
     password_hash => postgresql_password('mangrove', ''),
     require       => Class['postgresql::server'],
   }
-  tomcat {
+  class {"tomcat":
   }
   class { 'couchdb': bind => '0.0.0.0' }
   
 }
 
 node dev inherits base_system{
-  datawinnersapp {}
+  class{"datawinnersapp":}
   
 }
 
@@ -61,3 +60,5 @@ node ci inherits dev {
     'git' : ;
   }
 }
+
+node default inherits dev{}
