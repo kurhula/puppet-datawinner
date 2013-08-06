@@ -22,9 +22,6 @@
 [submodule "modules/jenkins"]
 	path = modules/jenkins
 	url = https://github.com/jenkinsci/puppet-jenkins.git
-[submodule "modules/java"]
-	path = modules/java
-	url = https://github.com/puppetlabs/puppetlabs-java.git
 [submodule "modules/tomcat"]
 	path = modules/tomcat
 	url = https://github.com/example42/puppet-tomcat.git
