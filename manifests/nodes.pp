@@ -21,7 +21,7 @@ node base_system {
       'listen_address' => '*',
       'postgres_password' => 'postgres',
       'ip_mask_allow_all_users' => '0.0.0.0/0',
-      'ip_mask_deny_postgres_user' = > '0.0.0.0/32',
+      'ip_mask_deny_postgres_user' => '0.0.0.0/32',
     },
   }
  postgresql::database_user{ 'mangrove':
