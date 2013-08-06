@@ -16,7 +16,7 @@ node base_system {
   }
 
 ######## Postgres installation ############
-  class {"postgresql":
+  class { "postgresql::server":
     config_hash => {
       'listen_address' => '*',
       'postgres_password' => 'postgres',
@@ -24,6 +24,7 @@ node base_system {
       'ip_mask_deny_postgres_user' => '0.0.0.0/32',
     },
   }
+
  postgresql::database_user{ 'mangrove':
     # TODO: ensure is not yet supported
     #ensure        => present,
