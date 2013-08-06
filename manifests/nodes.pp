@@ -51,14 +51,14 @@ node base_system {
     require     => User["datawinners"],
   }
 
+  class { 'couchdb': bind => '0.0.0.0' }
+
 
 
 
 #  class {"tomcat":
 #  }
-#  class { 'couchdb': bind => '0.0.0.0' }
-#
-#}
+
 #
 #node dev inherits base_system{
 #  class{"datawinnersapp":}
