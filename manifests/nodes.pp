@@ -54,7 +54,12 @@ node base_system {
 
 ############### Apache Couchdb configuration ###########
 ## couchdb user/group is created as part of the installation
-  class { 'couchdb': bind => '0.0.0.0' }
+  class { 'couchdb':
+    download => 'http://mir2.ovh.net/ftp.apache.org/dist/couchdb/source/1.3.1/apache-couchdb-1.3.1.tar.gz',
+    filename => 'apache-couchdb-1.3.1.tar.gz',
+    foldername => 'apache-couchdb-1.3.1',
+    bind => '0.0.0.0',
+  }
 
 
 
