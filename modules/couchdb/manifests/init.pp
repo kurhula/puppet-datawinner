@@ -11,7 +11,7 @@ class couchdb (
   }
 
   exec { 'download':
-    require => $required_packages,
+    require => Package[$required_packages],
     cwd => '/opt/',
     path => [ '/usr/local/bin', '/usr/bin', '/bin', ],   
     command => "wget -q ${package_location} -O ${package_name}",
