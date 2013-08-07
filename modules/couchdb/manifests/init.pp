@@ -4,13 +4,14 @@ class couchdb (
 
 )
  {
-  package {
-        ['wget','libicu-dev', 'libmozjs185-dev', 'libcurl4-gnutls-dev', 'libtool', 'erlang-base-hipe','erlang-eunit','erlang-nox','erlang-xmerl', 'erlang-inets']:	
+
+  $required_packages = ['wget','libicu-dev', 'libmozjs185-dev', 'libcurl4-gnutls-dev', 'libtool', 'erlang-base-hipe','erlang-eunit','erlang-nox','erlang-xmerl', 'erlang-inets']
+  package { $required_packages :
 	ensure => 'installed',
   }
 
   exec { 'download':
-    require => Package['wget'],
+    require => $required_packages,
     cwd => '/opt/',
     path => [ '/usr/local/bin', '/usr/bin', '/bin', ],   
     command => "wget -q ${package_location} -O ${package_name}",
