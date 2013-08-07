@@ -51,8 +51,10 @@ node base_system {
     require     => User["datawinners"],
   }
 
-  class { 'couchdb': bind => '0.0.0.0' }
 
+############### Apache Couchdb configuration ###########
+## couchdb user/group is created as part of the installation
+  class { 'couchdb': bind => '0.0.0.0' }
 
 
 
