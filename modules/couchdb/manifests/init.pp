@@ -40,6 +40,12 @@ class couchdb (
    command => "dpkg -i ${package_name}",
    timeout => 120,		
   }
+
+  file { ["/opt/apache-couchdb/var","/opt/apache-couchdb/var/lib", "/opt/apache-couchdb/var/lib/couchdb", "/opt/apache-couchdb/var/log", "/opt/apache-couchdb/var/log/couchdb"] :
+      require => Exec['install-couchdb'],
+      ensure => 'directory',
+      owner => 'couchdb',
+  }
 }
 
 
