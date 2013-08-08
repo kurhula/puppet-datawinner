@@ -75,28 +75,18 @@ node base_system {
 
 node default {
 
-   class { "couchdb" :}
+   include couchdb
    
-   file { "/opt/apache-couchdb/var/lib/couchdbmain" :
-      ensure => directory,
-      owner => 'couchdb',
-      group => 'couchdb',
-   }
-   class { "couchdb::instance": 
-		$service_name => "couchdbmain",
-		$database_dir=> "/opt/apache-couchdb/var/lib/couchdbmain",
+   couchdb::instance { "couchdbmain" :
+		service_name => "couchdbmain",
+		database_dir => "/opt/apache-couchdb/var/lib/couchdbmain",
 	 }
 
-   file { "/opt/apache-couchdb/var/lib/couchdbfeed" :
-      ensure => directory,
-      owner => 'couchdb',
-      group => 'couchdb',
-   }
 
-   class { "couchdb::instance": 
-		$service_name => "couchdbfeed",
-                $database_dir => "/opt/apache-couchdb/var/lib/couchdbfeed",
-		$port => "7984", 
+   couchdb::instance { "couchdbfeed":
+		service_name => "couchdbfeed",
+                database_dir => "/opt/apache-couchdb/var/lib/couchdbfeed",
+		port => "7984", 
    }  
 }
 

@@ -1,4 +1,4 @@
-class couchdb::instance (
+define couchdb::instance (
 $service_name="couchdb", 
 $erl_max_ports="2048", 
 $bind_address="0.0.0.0",
