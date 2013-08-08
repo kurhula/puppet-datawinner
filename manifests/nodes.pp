@@ -83,8 +83,8 @@ node default {
       group => 'couchdb',
    }
    class { "couchdb::instance": 
-		$service_name='couchdbmain',
-		$database_dir='/opt/apache-couchdb/var/lib/couchdbmain',
+		$service_name => "couchdbmain",
+		$database_dir=> "/opt/apache-couchdb/var/lib/couchdbmain",
 	 }
 
    file { "/opt/apache-couchdb/var/lib/couchdbfeed" :
@@ -94,9 +94,9 @@ node default {
    }
 
    class { "couchdb::instance": 
-		$service_name='couchdbfeed',
-                $database_dir='/opt/apache-couchdb/var/lib/couchdbfeed',
-		$port=7984, 
+		$service_name => "couchdbfeed",
+                $database_dir => "/opt/apache-couchdb/var/lib/couchdbfeed",
+		$port => "7984", 
    }  
 }
 
