@@ -1,0 +1,22 @@
+[couchdb]
+max_dbs_open=<%=@max_dbs_open%>
+os_process_timeout=<%=@os_process_timeout%>
+database_dir=<%=@database_dir%>
+view_index_dir=<%=@view_index_dir%>
+
+
+[httpd]
+WWW-Authenticate = Basic realm="administrator"
+bind_address=<%=@bind_address%>
+port=<%=@port%>
+
+[couch_httpd_auth]
+require_valid_user=true
+timeout=<%=@timeout%>
+
+[log]
+file=<%=@log_file%>
+
+[admins]
+<%=@username%>=<%=@password%>
+

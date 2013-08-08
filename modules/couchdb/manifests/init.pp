@@ -27,21 +27,26 @@ class couchdb (
     timeout => 120,
   }
   
-  file { '/opt/${package_name}' :
+  file { "/opt/${package_name}" :
     require => Exec['download'],
     ensure => 'present',
     mode => '0755',	
   }
   
   exec { 'install-couchdb':
-   require => File['/opt/${package_name}'],
+   require => File["/opt/${package_name}"],
    path => [ '/usr/local/bin', '/usr/sbin', '/sbin', '/usr/bin', '/bin', ],
    cwd => '/opt/',
    command => "dpkg -i ${package_name}",
    timeout => 120,		
   }
 
-  file { ["/opt/apache-couchdb/var","/opt/apache-couchdb/var/lib", "/opt/apache-couchdb/var/lib/couchdb", "/opt/apache-couchdb/var/log", "/opt/apache-couchdb/var/log/couchdb"] :
+  file { ["/opt/apache-couchdb/var",
+          "/opt/apache-couchdb/var/lib",
+	  "/opt/apache-couchdb/var/log", 
+	  "/opt/apache-couchdb/var/log/couchdb", 
+   	  "/opt/apache-couchdb/var/run",
+	  "/opt/apache-couchdb/var/run/couchdb"] :
       require => Exec['install-couchdb'],
       ensure => 'directory',
       owner => 'couchdb',
