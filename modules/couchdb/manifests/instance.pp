@@ -17,7 +17,8 @@ $database_dir="/opt/apache-couchdb/var/lib/couchdb"
      	content => template('couchdb/etc/init.d/couchdb_template.erb'),
      }
      
-     file { "/opt/apache-couchdb/etc/default/${serivce_name}":
+     file { "/opt/apache-couchdb/etc/default/${service_name}":
+	ensure => present,
      	owner => 'couchdb',
 	group => 'couchdb',
 	mode => '0444',
