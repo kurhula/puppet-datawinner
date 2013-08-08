@@ -1,13 +1,13 @@
 class couchdb::instance (
-$service_name='couchdb', 
-$erl_max_ports=2048, 
+$service_name="couchdb", 
+$erl_max_ports="2048", 
 $bind_address="0.0.0.0",
-$port=5984, 
-$timeout=43200,
+$port="5984", 
+$timeout="43200",
 $username="admin", 
 $password="admin",
-$max_dbs_open=1000,
-$os_process_timeout=240000,
+$max_dbs_open="1000",
+$os_process_timeout="240000",
 $database_dir="/opt/apache-couchdb/var/lib/couchdb"
 ) {
      file { "/etc/init.d/${service_name}" :
