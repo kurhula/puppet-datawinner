@@ -1,10 +1,19 @@
 class couchdb (
   $package_location = 'https://github.com/mangroveorg/dwpkg/raw/master/couchdb/apache-couchdb_1.3.1-1_amd64.deb',
   $package_name = 'apache-couchdb_1.3.1-1_amd64.deb'
-
 )
  {
 
+  group {"couchdb": ensure => "present",}
+
+  user { "couchdb" : 
+	ensure => present,
+	gid => "couchdb",
+  	managehome => false,
+	shell => '/bin/sh',
+	home => '/opt/apache-couchdb',
+  }
+  
   $required_packages = ['wget','libicu-dev', 'libmozjs185-dev', 'libcurl4-gnutls-dev', 'libtool', 'erlang-base-hipe','erlang-eunit','erlang-nox','erlang-xmerl', 'erlang-inets']
   package { $required_packages :
 	ensure => 'installed',

@@ -74,5 +74,12 @@ node base_system {
 }
 
 node default {
-  class { 'couchdb':  }
+
+include couchdb
+include couchdb::instance
+
+#  class { "couchdb" :}
+#  class { "couchdb::instance": } 
 }
+
+
