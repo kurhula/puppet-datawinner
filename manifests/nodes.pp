@@ -122,6 +122,6 @@ node default {
   class { "uwsgi":
   }
 
-  uwsgi::application { }
+  uwsgi::application {"uwsgi": }
 
 }

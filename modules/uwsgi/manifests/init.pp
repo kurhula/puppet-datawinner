@@ -1,6 +1,6 @@
-class uwsgi ($package_location = "http://projects.unbit.it/downloads/uwsgi-1.4.9.tar.gz", $file_name = "uwsgi-1.4.9") {
+class uwsgi ($package_location = "http://projects.unbit.it/downloads/uwsgi-1.4.9.tar.gz", $file_name = "uwsgi-1.4.9",) {
   # lts for uwsgi-1.4.9 is till 2014 for regular customers and till 2015 for paid customers
-  exec { 'download':
+  exec { 'download_uwsgi':
     cwd     => '/opt/',
     path    => ['/usr/local/bin', '/usr/bin', '/bin',],
     command => "wget -q ${package_location} -O ${file_name}.tar.gz",
