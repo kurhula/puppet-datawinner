@@ -7,9 +7,6 @@
 [submodule "modules/python"]
 	path = modules/python
 	url = https://github.com/mangroveorg/puppet-python.git
-[submodule "modules/uwsgi"]
-	path = modules/uwsgi
-	url = https://github.com/mangroveorg/puppet-uwsgi.git
 [submodule "modules/firewall"]
 	path = modules/firewall
 	url = https://github.com/puppetlabs/puppetlabs-firewall.git
