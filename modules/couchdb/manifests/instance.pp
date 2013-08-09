@@ -25,7 +25,7 @@ $database_dir="/opt/apache-couchdb/var/lib/couchdb"
 	content => template('couchdb/opt/apache-couchdb/etc/default/couchdb_template.erb'),
      }     
 
-     $couchdb_options = "-a /opt/apache-couchdb/etc/default/${serivce_name} -p /opt/apache-couchdb/var/run/couchdb/${service_name}.pid"
+     $couchdb_options = "-a /opt/apache-couchdb/etc/default/${service_name} -p /opt/apache-couchdb/var/run/couchdb/${service_name}.pid"
      $log_file = "/opt/apache-couchdb/var/log/${service_name}.log"
      $view_index_dir=$database_dir	
      
