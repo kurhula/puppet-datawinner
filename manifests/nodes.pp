@@ -90,5 +90,5 @@ node default {
     database_dir => "/opt/apache-couchdb/var/lib/couchdbfeed",
     port         => "7984",
   }
-}
 
+}

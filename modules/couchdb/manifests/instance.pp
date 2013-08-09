@@ -42,4 +42,14 @@ define couchdb::instance (
     mode    => '0744',
     content => template('couchdb/opt/apache-couchdb/etc/couchdb/local_ini_template.erb'),
   }
+
+  service { "service_${service_name}":
+    ensure     => running,
+    hasstatus  => true,
+    hasrestart => true,
+    enable     => true,
+    name       => "${service_name}",
+    subscribe  => File["/opt/apache-couchdb/etc/couchdb/${service_name}.ini"],
+  }
+
 }
