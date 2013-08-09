@@ -1,0 +1,14 @@
+[uwsgi]
+socket = 127.0.0.1:<%=@port%>
+master = true
+processes = 8
+chdir = <%=@working_dir%>
+pythonpath = <%=@pythonpath%>
+env = DJANGO_SETTINGS_MODULE=datawinners.settings
+module = django.core.handlers.wsgi:WSGIHandler()
+pidfile = /tmp/project-master.pid
+vacuum = true
+max-requests = 5000
+daemonize = /var/log/uwsgi/uwsgi.log
+home = <%=@home%>
+plugins= python

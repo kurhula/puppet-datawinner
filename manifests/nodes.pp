@@ -37,23 +37,6 @@ node base_system {
     notify  => Service['postgresql'],
   }
 
-  # ####### Python installation ############
-  class { 'python':
-    virtualenv => true
-  }
-
-  python::virtualenv { '/home/datawinners/virtual_env/datawinner':
-    ensure => present,
-    owner  => "datawinners",
-    group  => "datawinners",
-  }
-
-  python::pip { "pip":
-    virtualenv => '/home/datawinners/virtual_env/datawinner',
-    owner      => 'datawinners',
-    require    => User["datawinners"],
-  }
-
   # ############## Apache Couchdb configuration ###########
   # # couchdb user/group is created as part of the installation
 
@@ -76,6 +59,16 @@ node base_system {
 }
 
 node default {
+  group { "datawinners": ensure => "present", }
+
+  user { "datawinners":
+    ensure     => "present",
+    managehome => true,
+    gid        => "datawinners",
+    require    => Group["datawinners"],
+  }
+  $home_dir = "/home/datawinners"
+
   class { "couchdb": }
 
   couchdb::instance { "couchdbmain":
@@ -90,5 +83,45 @@ node default {
     database_dir => "/opt/apache-couchdb/var/lib/couchdbfeed",
     port         => "7984",
   }
+
+  vcsrepo { '${home_dir}/workspace/datawinners':
+    ensure   => present,
+    provider => git,
+    source   => 'git://github.com/mangroveorg/datawinners.git',
+  }
+
+  vcsrepo { '${home_dir}/workspace/mangrove':
+    ensure   => present,
+    provider => git,
+    source   => 'git://github.com/mangroveorg/mangrove.git',
+  }
+
+  # ####### Python installation ############
+  class { 'python':
+    virtualenv => true
+  }
+
+  python::virtualenv { '${home_dir}/virtual_env/datawinner':
+    ensure => present,
+    owner  => "datawinners",
+    group  => "datawinners",
+  }
+
+  python::pip { "pip":
+    virtualenv => '${home_dir}/virtual_env/datawinner',
+    owner      => 'datawinners',
+    require    => User["datawinners"],
+  }
+
+  python::requirements { '${home_dir}/workspace/datawinners/requirements.pip':
+    virtualenv => '${home_dir}/virtual_env/datawinner',
+    owner      => 'datawinners',
+    group      => 'datawinners',
+  }
+
+  class { "uwsgi":
+  }
+
+  uwsgi::application { }
 
 }
