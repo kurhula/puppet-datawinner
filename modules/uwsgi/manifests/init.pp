@@ -1,4 +1,5 @@
-class uwsgi ($package_location = "http://projects.unbit.it/downloads/uwsgi-1.4.9.tar.gz", $file_name = "uwsgi-1.4.9",) {
+#class uwsgi ($package_location = "http://projects.unbit.it/downloads/uwsgi-1.4.9.tar.gz", $file_name = "uwsgi-1.4.9",) {
+class uwsgi ($package_location = "http://projects.unbit.it/downloads/uwsgi-1.4.1.tar.gz", $file_name = "uwsgi-1.4.1",) {
   group { "uwsgi": ensure => "present", }
 
   user { "uwsgi":
@@ -25,28 +26,23 @@ class uwsgi ($package_location = "http://projects.unbit.it/downloads/uwsgi-1.4.9
   }
 
   file { "/opt/${file_name}":
-    mode    => '0777',
     recurse => true,
     require => Exec['extract'],
     owner   => 'datawinners',
     group   => 'datawinners',
   }
 
-  package { 'build-essential':
-    ensure => present,
-  }
-
   exec { "build_uwsgi":
-    cwd     => "/opt/${file_name}",
+    cwd     => "/opt/${file_name}/",
     path    => ['/usr/local/bin', '/usr/bin', '/bin'],
     command => "python uwsgiconfig.py --build",
-    require => [File["/opt/${file_name}"], Package['build-essential']],
+    require => File["/opt/${file_name}"],
     user    => 'datawinners',
   }
 
   file { '/usr/bin/uwsgi':
     ensure  => 'present',
-    source  => '/opt/${file_name}',
+    source  => "/opt/${file_name}/uwsgi",
     owner   => "root",
     group   => "root",
     mode    => "0755",

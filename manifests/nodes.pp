@@ -99,9 +99,18 @@ node default {
     source   => 'git://github.com/mangroveorg/mangrove.git',
   }
 
-  # ####### Python installation ############
+  # ###### Python installation ############
+
+  exec { "update-apt-get":
+    command => "apt-get update",
+    path    => ['/usr/local/bin', '/usr/bin', '/bin'],
+    user    => root,
+  }
+
   class { 'python':
     virtualenv => true,
+    dev        => true,
+    require    => Exec["update-apt-get"],
   }
 
   python::virtualenv { "${home_dir}/virtual_env/datawinner":
@@ -124,7 +133,6 @@ node default {
   }
 
   class { "uwsgi":
-    require => Class['python'],
   }
 
   uwsgi::application { "uwsgi": }

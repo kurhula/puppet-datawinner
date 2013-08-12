@@ -4,11 +4,11 @@ define uwsgi::application (
   $pythonpath  = "/home/datawinners/workspace/datawinners",
   $home        = "/home/datawinners/virtual_env/datawinners",) {
   file { "/etc/default/uwsgi.ini":
-    ensure => 'present',
+    ensure  => 'present',
     content => template("uwsgi/uwsgi.ini.erb"),
-    owner  => "uwsgi",
-    group  => "uwsgi",
-    mode   => "0755",
+    owner   => "uwsgi",
+    group   => "uwsgi",
+    mode    => "0755",
   }
 
   file { '/etc/init.d/uwsgi':
