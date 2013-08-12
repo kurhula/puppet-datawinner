@@ -49,10 +49,11 @@ class uwsgi ($package_location = "http://projects.unbit.it/downloads/uwsgi-1.4.1
   #    require => [User["uwsgi"], Exec["build_uwsgi"]],
   #  }
 
+
   exec { "uwsgi":
-    cwd     => '/home/datawinners/',
+    cwd     => '/home/datawinners/workspace/datawinners',
     path    => ['/usr/local/bin', '/usr/bin', '/bin'],
-    command => "sudo pip install uWSGI==1.4.1",
+    command => "source /home/datawinners/virtual_env/datawinners/bin/activate && sudo pip install uWSGI==1.4.1",
   }
 
   file { '/var/log/uwsgi':
