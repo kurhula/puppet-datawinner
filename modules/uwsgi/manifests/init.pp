@@ -1,31 +1,4 @@
 class uwsgi ($package_location = "http://projects.unbit.it/downloads/uwsgi-1.4.9.tar.gz", $file_name = "uwsgi-1.4.9",) {
-  # lts for uwsgi-1.4.9 is till 2014 for regular customers and till 2015 for paid customers
-  exec { 'download_uwsgi':
-    cwd     => '/opt/',
-    path    => ['/usr/local/bin', '/usr/bin', '/bin',],
-    command => "wget -q ${package_location} -O ${file_name}.tar.gz",
-    timeout => 120,
-  }
-
-  exec { 'extract':
-    cwd     => '/opt/',
-    command => "tar -xvzf ${file_name}.tar.gz",
-    timeout => '120',
-    require => Exec["download"],
-  }
-
-  file { "/opt/${file_name}":
-    mode    => '0777',
-    recurse => true,
-    require => Exec['extract']
-  }
-
-  exec { "build_uwsgi":
-    cwd     => "/opt/${file_name}",
-    command => "python uwsgiconf.py --build",
-    require => File["/opt/${file_name}"],
-  }
-
   group { "uwsgi": ensure => "present", }
 
   user { "uwsgi":
@@ -34,6 +7,41 @@ class uwsgi ($package_location = "http://projects.unbit.it/downloads/uwsgi-1.4.9
     managehome => false,
     shell      => '/bin/sh',
     require    => Group["uwsgi"],
+  }
+
+  # lts for uwsgi-1.4.9 is till 2014 for regular customers and till 2015 for paid customers
+  exec { 'download_uwsgi':
+    cwd     => '/opt/',
+    path    => ['/usr/local/bin', '/usr/bin', '/bin'],
+    command => "wget -q ${package_location} -O ${file_name}.tar.gz",
+    timeout => 120,
+  }
+
+  exec { 'extract':
+    cwd     => '/opt/',
+    command => "/bin/tar -xzvf ${file_name}.tar.gz",
+    timeout => '120',
+    require => Exec["download_uwsgi"],
+  }
+
+  file { "/opt/${file_name}":
+    mode    => '0777',
+    recurse => true,
+    require => Exec['extract'],
+    owner   => 'datawinners',
+    group   => 'datawinners',
+  }
+
+  package { 'build-essential':
+    ensure => present,
+  }
+
+  exec { "build_uwsgi":
+    cwd     => "/opt/${file_name}",
+    path    => ['/usr/local/bin', '/usr/bin', '/bin'],
+    command => "python uwsgiconfig.py --build",
+    require => [File["/opt/${file_name}"], Package['build-essential']],
+    user    => 'datawinners',
   }
 
   file { '/usr/bin/uwsgi':
@@ -53,4 +61,3 @@ class uwsgi ($package_location = "http://projects.unbit.it/downloads/uwsgi-1.4.9
   }
 
 }
-

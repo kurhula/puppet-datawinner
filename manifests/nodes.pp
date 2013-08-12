@@ -66,31 +66,34 @@ node default {
     managehome => true,
     gid        => "datawinners",
     require    => Group["datawinners"],
+    password   => sha1('datawinners'),
   }
   $home_dir = "/home/datawinners"
 
-  class { "couchdb": }
+  #  class { "couchdb": }
+  #
+  #  couchdb::instance { "couchdbmain":
+  #    require      => Class['couchdb'],
+  #    service_name => "couchdbmain",
+  #    database_dir => "/opt/apache-couchdb/var/lib/couchdbmain",
+  #  }
+  #
+  #  couchdb::instance { "couchdbfeed":
+  #    require      => Class['couchdb'],
+  #    service_name => "couchdbfeed",
+  #    database_dir => "/opt/apache-couchdb/var/lib/couchdbfeed",
+  #    port         => "7984",
+  #  }
 
-  couchdb::instance { "couchdbmain":
-    require      => Class['couchdb'],
-    service_name => "couchdbmain",
-    database_dir => "/opt/apache-couchdb/var/lib/couchdbmain",
-  }
+  file { "${home_dir}": ensure => directory, }
 
-  couchdb::instance { "couchdbfeed":
-    require      => Class['couchdb'],
-    service_name => "couchdbfeed",
-    database_dir => "/opt/apache-couchdb/var/lib/couchdbfeed",
-    port         => "7984",
-  }
-
-  vcsrepo { '${home_dir}/workspace/datawinners':
+  vcsrepo { "${home_dir}/workspace/datawinners":
     ensure   => present,
     provider => git,
     source   => 'git://github.com/mangroveorg/datawinners.git',
   }
 
-  vcsrepo { '${home_dir}/workspace/mangrove':
+  vcsrepo { "${home_dir}/workspace/mangrove":
     ensure   => present,
     provider => git,
     source   => 'git://github.com/mangroveorg/mangrove.git',
@@ -98,30 +101,31 @@ node default {
 
   # ####### Python installation ############
   class { 'python':
-    virtualenv => true
+    virtualenv => true,
   }
 
-  python::virtualenv { '${home_dir}/virtual_env/datawinner':
-    ensure => present,
-    owner  => "datawinners",
-    group  => "datawinners",
+  python::virtualenv { "${home_dir}/virtual_env/datawinner":
+    ensure  => present,
+    owner   => "root",
+    group   => "root",
+    require => Class['python'],
   }
 
   python::pip { "pip":
-    virtualenv => '${home_dir}/virtual_env/datawinner',
-    owner      => 'datawinners',
+    virtualenv => "${home_dir}/virtual_env/datawinner",
+    owner      => 'root',
     require    => User["datawinners"],
   }
 
-  python::requirements { '${home_dir}/workspace/datawinners/requirements.pip':
-    virtualenv => '${home_dir}/virtual_env/datawinner',
-    owner      => 'datawinners',
-    group      => 'datawinners',
+  python::requirements { "${home_dir}/workspace/datawinners/requirements.pip":
+    virtualenv => "${home_dir}/virtual_env/datawinner",
+    owner      => 'root',
+    group      => 'root',
   }
 
   class { "uwsgi":
+    require => Class['python'],
   }
 
-  uwsgi::application {"uwsgi": }
-
+  uwsgi::application { "uwsgi": }
 }

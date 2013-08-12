@@ -5,14 +5,14 @@ define uwsgi::application (
   $home        = "/home/datawinners/virtual_env/datawinners",) {
   file { "/etc/default/uwsgi.ini":
     ensure => 'present',
-    source => template("uwsgi/uwsgi.ini.erb"),
+    content => template("uwsgi/uwsgi.ini.erb"),
     owner  => "uwsgi",
     group  => "uwsgi",
     mode   => "0755",
   }
 
   file { '/etc/init.d/uwsgi':
-    source => "puppet:///modules/uwsgi/uwsgi",
+    source => "puppet:///modules/uwsgi/etc/init.d/uwsgi",
     mode   => "0755",
     owner  => "root",
     group  => "root",
