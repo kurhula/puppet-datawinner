@@ -23,11 +23,14 @@ node base_system {
     }
     ,
   }
-
-  postgresql::database_user { 'mangrove':
+  
+  postgresql::database_user { 'datawinners':
     # TODO: ensure is not yet supported
     # ensure        => present,
-    password_hash => postgresql_password('mangrove', 'mangrove'),
+    createdb => true,
+    superuser => true,
+    db => 'datawinners',
+    password_hash => postgresql_password('datawinners', 'datawinners'),
     require       => Class['postgresql::server'],
   }
 
