@@ -23,7 +23,7 @@ node base_system {
     }
     ,
   }
-  
+
   postgresql::database_user { 'datawinners':
     # TODO: ensure is not yet supported
     # ensure        => present,
@@ -58,7 +58,7 @@ node base_system {
     database_dir => "/opt/apache-couchdb/var/lib/couchdbfeed",
     port         => "7984",
   }
-
+ 
   #  class {"tomcat":
   #  }
 
@@ -77,7 +77,7 @@ node base_system {
 
   $home_dir = "/home/datawinners"
 
-  file { "${home_dir}": ensure => directory, }
+  file { "${home_dir}": ensure => directory, owner=> 'datawinners', group => 'datawinners', recurse=> true}
 
   vcsrepo { "${home_dir}/workspace/datawinners":
     ensure   => present,
@@ -106,30 +106,64 @@ node base_system {
     require    => Exec["update-apt-get"],
   }
 
-  python::virtualenv { "${home_dir}/virtual_env/datawinner":
+  python::virtualenv { "${home_dir}/virtual_env/datawinners":
     ensure  => present,
     owner   => "root",
     group   => "root",
     require => Class['python'],
   }
 
+  package{"nginx":
+    ensure => present,
+  }
+
   python::pip { "pip":
-    virtualenv => "${home_dir}/virtual_env/datawinner",
+    virtualenv => "${home_dir}/virtual_env/datawinners",
     owner      => 'root',
     require    => User["datawinners"],
   }
+        file { "/home/datawinners/workspace":
+          recurse => true,
+          owner => 'datawinners',
+          group => 'datawinners',
+          require => [Vcsrepo ['/home/datawinners/workspace/mangrove'], Vcsrepo ['/home/datawinners/workspace/datawinners']],
 
+        }
+
+        package{"postgresql-server-dev-9.1":
+          ensure => present,
+        }
+
+        package{"libxslt1-dev":
+          ensure => present
+        }
+
+        package{"libxml2-dev":
+          ensure => present
+        }
+        package{"postgresql-9.1-postgis":
+          ensure => present,
+        }
+
+        python::requirements { '/home/datawinners/workspace/datawinners/requirements.pip':
+          virtualenv => '/home/datawinners/virtual_env/datawinners',
+          owner      => 'datawinners',
+          group      => 'datawinners',
+          require    => [File["/home/datawinners/workspace"], Python::Requirements['/home/datawinners/workspace/mangrove/requirements.pip']],
+        }
+
+        python::requirements { '/home/datawinners/workspace/mangrove/requirements.pip':
+          virtualenv => '/home/datawinners/virtual_env/datawinners',
+          owner      => 'datawinners',
+          group      => 'datawinners',
+          require    => [File["/home/datawinners/workspace"],Package['postgresql-server-dev-9.1'], Package['libxml2-dev']],
+        }
   #  python::requirements { "${home_dir}/workspace/datawinners/requirements.pip":
   #    virtualenv => "${home_dir}/virtual_env/datawinner",
   #    owner      => 'root',
   #    group      => 'root',
   #  }
 
-  class { "uwsgi":
-    require => Class['python'],
-  }
-
-  uwsgi::application { "uwsgi": }
 }
 
 node default inherits base_system {
