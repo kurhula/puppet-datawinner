@@ -29,7 +29,6 @@ node base_system {
     # ensure        => present,
     createdb => true,
     superuser => true,
-    db => 'datawinners',
     password_hash => postgresql_password('datawinners', 'datawinners'),
     require       => Class['postgresql::server'],
   }
