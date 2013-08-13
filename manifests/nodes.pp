@@ -10,6 +10,7 @@ node base_system {
     managehome => true,
     gid        => "datawinners",
     require    => Group["datawinners"],
+    shell      => "/bin/bash",
   }
 
   # ####### Postgres installation ############
@@ -36,6 +37,7 @@ node base_system {
     content => 'standard_conforming_strings = off',
     notify  => Service['postgresql'],
   }
+
   # ############## Apache Couchdb configuration ###########
   # # couchdb user/group is created as part of the installation
   class { "couchdb":
@@ -53,8 +55,6 @@ node base_system {
     database_dir => "/opt/apache-couchdb/var/lib/couchdbfeed",
     port         => "7984",
   }
-  
-
 
   #  class {"tomcat":
   #  }
@@ -129,4 +129,5 @@ node base_system {
   uwsgi::application { "uwsgi": }
 }
 
-node default inherits base_system{}
+node default inherits base_system {
+}
