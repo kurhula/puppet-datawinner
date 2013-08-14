@@ -9,6 +9,7 @@ class datawinners ($user = 'datawinners', $group = 'datawinners', $database_name
     require    => Group["${group}"],
     shell      => "/bin/bash",
   }
+  $home_dir = "/home/${user}"
 
   package { "nginx": ensure => present, }
 
@@ -61,8 +62,22 @@ class datawinners ($user = 'datawinners', $group = 'datawinners', $database_name
     mode    => '644',
   }
 
+  file { "/var/log/uwsgi":
+    ensure => "directory",
+    owner  => "${user}",
+    group  => "${group}",
+    mode   => "755",
+  }
+
+  file { "/var/log/datawinners":
+    ensure => "directory",
+    owner  => "${user}",
+    group  => "${group}",
+    mode   => "755",
+  }
+
   # ################## Datawinners app repositories ####################
-  $home_dir = "/home/${user}"
+
 
   file { "${home_dir}":
     ensure  => directory,
