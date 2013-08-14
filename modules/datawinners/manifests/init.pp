@@ -1,5 +1,5 @@
 
-class datawinners ($user = 'datawinners', $group = $user, $database_name = 'geodjango') {
+class datawinners ($user = 'datawinners', $group = 'datawinners', $database_name = 'geodjango') {
   group { "${group}": ensure => "present", }
 
   user { "${user}":
@@ -12,36 +12,11 @@ class datawinners ($user = 'datawinners', $group = $user, $database_name = 'geod
 
   package { "nginx": ensure => present, }
 
-   # ####### Postgres installation ############
-  class { "postgresql::server":
-    config_hash => {
-      'listen_addresses'           => '*',
-      'postgres_password'          => 'postgres',
-      'ip_mask_allow_all_users'    => '0.0.0.0/0',
-      'ip_mask_deny_postgres_user' => '0.0.0.0/32',
-    }
-    ,
-  }
+  class { "datawinners::couchdb": }
 
-  $pg_conf_include_file = "${postgresql::params::confdir}/postgresql_puppet_extras.conf"
-
-  file { $pg_conf_include_file:
-    content => 'standard_conforming_strings = off',
-    notify  => Service['postgresql'],
-    require => Class['postgresql::server'],
-  }
-
-  postgresql::database_user { "${user}":
-    createdb      => true,
-    superuser     => true,
-    password_hash => postgresql_password("${user}", "${user}"),
-    require       => File["$pg_conf_include_file"],
-  }
-
-  postgresql::database { "${database_name}":
-    owner   => "${user}",
-    charset => 'utf8',
-    require => Pstgresql::Database_user["${user}"],
+  class { "datawinners::postgres":
+    user          => "${user}",
+    database_name => "${database_name}",
   }
 
   # ###### Python installation ############
@@ -72,6 +47,20 @@ class datawinners ($user = 'datawinners', $group = $user, $database_name = 'geod
     require    => User["${user}"],
   }
 
+  file { "/etc/init.d/uwsgi":
+    content => template("datawinners/etc/init.d/uwsgi.erb"),
+    owner   => 'root',
+    group   => 'root',
+    mode    => '755',
+  }
+
+  file { "/etc/default/uwsgi.ini":
+    content => template("datawinners/etc/default/uwsgi.ini.erb"),
+    owner   => 'root',
+    group   => 'root',
+    mode    => '644',
+  }
+
   # ################## Datawinners app repositories ####################
   $home_dir = "/home/${user}"
 
@@ -87,14 +76,14 @@ class datawinners ($user = 'datawinners', $group = $user, $database_name = 'geod
     ensure   => present,
     provider => git,
     source   => 'git://github.com/mangroveorg/datawinners.git',
-    require => File["${home_dir}"],
+    require  => File["${home_dir}"],
   }
 
   vcsrepo { "${home_dir}/workspace/mangrove":
     ensure   => present,
     provider => git,
     source   => 'git://github.com/mangroveorg/mangrove.git',
-    require => File["${home_dir}"],
+    require  => File["${home_dir}"],
   }
 
   file { "${home_dir}/workspace":
