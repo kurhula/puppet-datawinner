@@ -11,13 +11,24 @@ class datawinners ($user = 'datawinners', $group = 'datawinners', $database_name
   }
   $home_dir = "/home/${user}"
 
-  package { "nginx": ensure => present, }
+  class { "datawinners::nginx":
+    home_dir => "${home_dir}",
+    user     => "${user}",
+    group    => "${group}",
+    require  => [User["${user}"], Group["${group}"]],
+  }
 
-  class { "datawinners::couchdb": }
+  class { "datawinners::couchdb":
+  }
 
   class { "datawinners::postgres":
     user          => "${user}",
     database_name => "${database_name}",
+  }
+
+  class { "datawinners::uwsgi_configure":
+    user  => "${user}",
+    group => "${group}",
   }
 
   # ###### Python installation ############
@@ -46,34 +57,6 @@ class datawinners ($user = 'datawinners', $group = 'datawinners', $database_name
     virtualenv => "${home_dir}/virtual_env/datawinners",
     owner      => "${user}",
     require    => User["${user}"],
-  }
-
-  file { "/etc/init.d/uwsgi":
-    content => template("datawinners/etc/init.d/uwsgi.erb"),
-    owner   => 'root',
-    group   => 'root',
-    mode    => '755',
-  }
-
-  file { "/etc/default/uwsgi.ini":
-    content => template("datawinners/etc/default/uwsgi.ini.erb"),
-    owner   => 'root',
-    group   => 'root',
-    mode    => '644',
-  }
-
-  file { "/var/log/uwsgi":
-    ensure => "directory",
-    owner  => "${user}",
-    group  => "${group}",
-    mode   => "755",
-  }
-
-  file { "/var/log/datawinners":
-    ensure => "directory",
-    owner  => "${user}",
-    group  => "${group}",
-    mode   => "755",
   }
 
   # ################## Datawinners app repositories ####################

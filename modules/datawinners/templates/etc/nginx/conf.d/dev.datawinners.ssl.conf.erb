@@ -1,0 +1,64 @@
+server {
+    server_name www.datawinners.com;
+    listen 443;
+    ssl on;
+    ssl_certificate <%=@home_dir%>/certificates/datawinners_chained.crt;
+    ssl_certificate_key <%=@home_dir%>/certificates/server.key;
+    ssl_prefer_server_ciphers on;
+    ssl_ciphers ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-SHA384:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-SHA256:ECDHE-RSA-RC4-SHA:ECDHE-RSA-AES256-SHA:DHE-RSA-AES256-SHA:RC4-SHA;
+    access_log  /var/log/nginx/datawinners.access.log custom-log;
+
+        #location / {
+        #    root   html;
+        #    index  index.html index.htm;
+        #}
+        location /google3756418eb1f4bb6c.html{
+          root <%=@home_dir%>/google/;
+          index google3756418eb1f4bb6c.html;
+        }
+
+        location /media{
+                expires max;
+                add_header  Cache-Control public;
+                root  <%=@home_dir%>/workspace/datawinners/datawinners/;
+         }
+
+        location /birt-viewer {
+                error_page 302 @notcrsuser;
+                if ($cookie_CRS_SESSION_ID  != $cookie_SESSIONID){
+
+                       return 302;
+                }
+                proxy_pass http://localhost:8080;
+                proxy_set_header HOST $host:80;
+
+        }
+
+        location @notcrsuser{
+
+	        rewrite ^/*/ /en/home;
+        }
+
+        location /{
+                include uwsgi_params;
+                uwsgi_pass   127.0.0.1:9001;
+                uwsgi_read_timeout 1800;
+                index  index.html index.htm;
+        }
+
+
+       # location ~* \.(js|css|png|jpg|jpeg|gif|ico)$ {
+       #         expires max;
+        #        log_not_found off;
+        #}
+
+        #error_page  404              /404.html;
+
+        # redirect server error pages to the static page /50x.html
+        #
+        error_page   500 502 503 504  /50x.html;
+        location = /50x.html {
+            root   html;
+        }
+
+}
