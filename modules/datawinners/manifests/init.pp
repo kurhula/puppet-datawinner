@@ -11,11 +11,8 @@ class datawinners ($user = 'datawinners', $group = 'datawinners', $database_name
   }
   $home_dir = "/home/${user}"
 
-  class { "datawinners::nginx":
+  class { "datawinners::nginx": 
     home_dir => "${home_dir}",
-    user     => "${user}",
-    group    => "${group}",
-    require  => [User["${user}"], Group["${group}"]],
   }
 
   class { "datawinners::couchdb":

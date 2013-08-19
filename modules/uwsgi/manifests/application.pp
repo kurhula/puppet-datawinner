@@ -18,11 +18,4 @@ define uwsgi::application (
     group  => "root",
   }
 
-  #  service { "uwsgi":
-  #    ensure     => running,
-  #    hasstatus  => true,
-  #    hasrestart => true,
-  #    enable     => true,
-  #    subscribe  => File["/etc/init.d/uwsgi", "/etc/default/uwsgi.ini"],
-  #  }
 }

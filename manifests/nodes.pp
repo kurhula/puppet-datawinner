@@ -1,6 +1,6 @@
 node base_system {
-  class { "datawinners": }
+    class { "datawinners": }
 }
 
-node default inherits base_system{
+node default inherits base_system {
 }
