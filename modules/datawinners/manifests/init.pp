@@ -11,12 +11,7 @@ class datawinners ($user = 'datawinners', $group = 'datawinners', $database_name
   }
   $home_dir = "/home/${user}"
 
-  class { "datawinners::nginx": 
-    home_dir => "${home_dir}",
-  }
-
-  class { "datawinners::couchdb":
-  }
+  class { "datawinners::couchdb": }
 
   class { "datawinners::postgres":
     user          => "${user}",
@@ -108,5 +103,9 @@ class datawinners ($user = 'datawinners', $group = 'datawinners', $database_name
     owner      => "${user}",
     group      => "${group}",
     require    => [File["${home_dir}/workspace"], Package['postgresql-server-dev-9.1'], Package['libxml2-dev']],
+  }
+
+  class { "datawinners::nginx":
+    home_dir => "${home_dir}",
   }
 }

@@ -1,6 +1,6 @@
 user www-data;
 worker_processes 4;
-pid /var/logs/nginx/nginx.pid;
+pid /opt/<%=@package_name%>/logs/nginx.pid;
 
 events {
         worker_connections 768;
@@ -28,7 +28,7 @@ http {
                 '"$request" "$request_body" $status $bytes_sent '
                 '"$http_referer" "$http_user_agent" "$gzip_ratio" "$http_authorization"';
 
-        include /etc/nginx/mime.types;
+        include /opt/<%=@package_name%>/conf/mime.types;
         default_type application/octet-stream;
 
         ##
@@ -57,6 +57,6 @@ http {
         # Virtual Host Configs
         ##
 
-        include /etc/nginx/conf.d/*.conf;
-#        include /etc/nginx/sites-enabled/*;
+        include /opt/<%=@package_name%>/conf.d/*.conf;
+#        include /opt/<%=@package_name%>/sites-enabled/*;
 }
