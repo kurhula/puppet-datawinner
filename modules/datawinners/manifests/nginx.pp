@@ -5,7 +5,7 @@ class datawinners::nginx (
   $package_name     = 'nginx-1.2.9') {
   $required_packages = ['build-essential', 'libpcre3-dev', 'zlib1g-dev']
 
-  package { $required_packages: ensure => 'installed', }
+  package { $required_packages: ensure => 'installed', } ->
   group { "nginx": ensure => present } ->
   user { "nginx":
     ensure     => "present",
