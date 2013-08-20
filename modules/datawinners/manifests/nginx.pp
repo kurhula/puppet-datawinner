@@ -5,7 +5,7 @@ class datawinners::nginx (
   $package_name     = 'nginx-1.2.9') {
   $required_packages = ['build-essential', 'libpcre3-dev', 'zlib1g-dev']
 
-  package { $required_packages: ensure => 'installed', } ->
+  package { $required_packages: ensure => 'present', }
   group { "nginx": ensure => present } ->
   user { "nginx":
     ensure     => "present",
@@ -20,6 +20,7 @@ class datawinners::nginx (
     owner               => "nginx",
     group               => "nginx",
     postextract_command => "/bin/sh -c \"cd /var/tmp/${package_name} && ./configure --prefix=/opt/${package_name} --user=nginx  --group=nginx --sbin-path=/usr/local/sbin --conf-path=/opt/${package_name}/conf/nginx.conf  --pid-path=/opt/${package_name}/logs/nginx.pid --with-http_gzip_static_module  --with-http_ssl_module  && make && make install\"",
+    require => [Package["libpcre3-dev"],Package["zlib1g-dev"]],
   } ->
   file { "/opt/${package_name}/conf/nginx.conf":
     content => template("datawinners/opt/nginx.conf.erb"),
