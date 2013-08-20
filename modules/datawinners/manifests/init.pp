@@ -1,5 +1,5 @@
 
-class datawinners ($user = 'datawinners', $group = 'datawinners', $database_name = 'geodjango') {
+class datawinners ($user = 'datawinners', $group = 'datawinners', $database_name = 'mangrove') {
   group { "${group}": ensure => "present", }
 
   user { "${user}":
@@ -11,10 +11,13 @@ class datawinners ($user = 'datawinners', $group = 'datawinners', $database_name
   }
   $home_dir = "/home/${user}"
 
-  if  !(file('/etc/init.d/couchdbmain')) {
-	  class { "datawinners::couchdb": 
-	  }
-	}
+  exec {"check_couchdb":
+  command => '/bin/true',
+  onlyif => '/usr/bin/test -e /etc/init.d/couchdbmain',
+  }
+  class { "datawinners::couchdb":
+    require => Exec["check_couchdb"],
+  }
 
   class { "datawinners::postgres":
     user          => "${user}",
@@ -40,6 +43,7 @@ class datawinners ($user = 'datawinners', $group = 'datawinners', $database_name
     group   => "${group}",
     recurse => true,
     require => User["${user}"],
+    loglevel => err,
   }
 
   vcsrepo { "${home_dir}/workspace/datawinners":
@@ -61,6 +65,7 @@ class datawinners ($user = 'datawinners', $group = 'datawinners', $database_name
     owner   => "${user}",
     group   => "${group}",
     require => [Vcsrepo["${home_dir}/workspace/mangrove"], Vcsrepo["${home_dir}/workspace/datawinners"]],
+    loglevel => err,
   }
 
   package { "postgresql-server-dev-9.1": ensure => present, }
@@ -90,8 +95,8 @@ class datawinners ($user = 'datawinners', $group = 'datawinners', $database_name
   }
 
   exec { "initialize-datawinners-environment":
-    cwd     => '${home_dir}/workspace/datawinners/',
-    command => './init_ubuntu_12.04.sh',
+    command => "${home_dir}/workspace/datawinners/init_ubuntu_12.04.sh",
+    user => $user,
     require => [Python::Requirements["${home_dir}/workspace/datawinners/requirements.pip"] , Class["datawinners::postgres"]],
   }
 
