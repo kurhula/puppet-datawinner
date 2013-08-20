@@ -33,6 +33,8 @@ class datawinners ($user = 'datawinners', $group = 'datawinners', $database_name
     user  => $user,
     group => $group,
   }
+  
+  class {"datawinners::elasticsearch":}
 
   # ################## Datawinners app repositories ####################
 

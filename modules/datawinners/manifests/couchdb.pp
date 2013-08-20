@@ -14,7 +14,7 @@ class datawinners::couchdb {
     require      => Class['::couchdb'],
     service_name => "couchdbfeed",
     database_dir => "/opt/apache-couchdb/var/lib/couchdbfeed",
-    port         => "7984",
+    port         => "6984",
   }
 
 }
