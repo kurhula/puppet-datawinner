@@ -20,7 +20,7 @@ class datawinners::nginx (
     owner               => "nginx",
     group               => "nginx",
     postextract_command => "/bin/sh -c \"cd /var/tmp/${package_name} && ./configure --prefix=/opt/${package_name} --user=nginx  --group=nginx --sbin-path=/usr/local/sbin --conf-path=/opt/${package_name}/conf/nginx.conf  --pid-path=/opt/${package_name}/logs/nginx.pid --with-http_gzip_static_module  --with-http_ssl_module  && make && make install\"",
-    require => Package[$required_packages],
+    require             => Package[$required_packages],
   } ->
   file { "/opt/${package_name}/conf/nginx.conf":
     content => template("datawinners/opt/nginx.conf.erb"),
@@ -84,4 +84,12 @@ class datawinners::nginx (
     source  => "puppet:///modules/datawinners/certificates/server.key",
     require => File["${home_dir}/certificates"],
   }
+
+  file { "${home_dir}/google/google3756418eb1f4bb6c.html":
+    content => "google3756418eb1f4bb6c.html",
+    owner   => "nginx",
+    group   => "nginx",
+    mode    => 0666,
+  }
+
 }
