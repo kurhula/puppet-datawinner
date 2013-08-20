@@ -85,6 +85,8 @@ class datawinners::nginx (
     require => File["${home_dir}/certificates"],
   }
 
+  file { "/home/datawinners/google": ensure => directory }
+
   file { "${home_dir}/google/google3756418eb1f4bb6c.html":
     content => "google3756418eb1f4bb6c.html",
     owner   => "nginx",
