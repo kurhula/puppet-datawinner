@@ -11,7 +11,10 @@ class datawinners ($user = 'datawinners', $group = 'datawinners', $database_name
   }
   $home_dir = "/home/${user}"
 
-  class { "datawinners::couchdb": }
+  if  !(file('/etc/init.d/couchdbmain')) {
+	  class { "datawinners::couchdb": 
+	  }
+	}
 
   class { "datawinners::postgres":
     user          => "${user}",
@@ -23,32 +26,9 @@ class datawinners ($user = 'datawinners', $group = 'datawinners', $database_name
     group => "${group}",
   }
 
-  # ###### Python installation ############
-
-  exec { "update-apt-get":
-    command => "apt-get update",
-    path    => ['/usr/local/bin', '/usr/bin', '/bin'],
-    user    => root,
-  }
-
-  class { 'python':
-    virtualenv => true,
-    dev        => true,
-    pip        => true,
-    require    => Exec["update-apt-get"],
-  }
-
-  python::virtualenv { "${home_dir}/virtual_env/datawinners":
-    ensure  => present,
-    owner   => "${user}",
-    group   => "${group}",
-    require => Class['python'],
-  }
-
-  python::pip { "pip":
-    virtualenv => "${home_dir}/virtual_env/datawinners",
-    owner      => "${user}",
-    require    => User["${user}"],
+  class { "datawinners::python":
+    user  => $user,
+    group => $group,
   }
 
   # ################## Datawinners app repositories ####################
@@ -102,7 +82,17 @@ class datawinners ($user = 'datawinners', $group = 'datawinners', $database_name
     virtualenv => "${home_dir}/virtual_env/datawinners",
     owner      => "${user}",
     group      => "${group}",
-    require    => [File["${home_dir}/workspace"], Package['postgresql-server-dev-9.1'], Package['libxml2-dev']],
+    require    => [
+      File["${home_dir}/workspace"],
+      Package['postgresql-server-dev-9.1'],
+      Package['libxml2-dev'],
+      Class["datawinners::python"]],
+  }
+
+  exec { "initialize-datawinners-environment":
+    cwd     => '${home_dir}/workspace/datawinners/',
+    command => './init_ubuntu_12.04.sh',
+    require => [Python::Requirements["${home_dir}/workspace/datawinners/requirements.pip"] , Class["datawinners::postgres"]],
   }
 
   class { "datawinners::nginx":
