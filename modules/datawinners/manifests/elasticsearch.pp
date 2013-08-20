@@ -14,4 +14,9 @@ class datawinners::elasticsearch ($url = "https://download.elasticsearch.org/ela
     provider => dpkg,
     require  => Exec['download-elasticsearch'],
   }
+
+  file { "/etc/elasticsearch/elasticsearch.yml":
+    content => template('datawinners/etc/elasticsearch/elasticsearch.yml.erb'),
+    require => Package["elasticsearch-install"],
+  }
 }
