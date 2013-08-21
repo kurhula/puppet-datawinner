@@ -37,7 +37,7 @@ class datawinners ($user = 'datawinners', $group = 'datawinners', $database_name
   class {"datawinners::tomcat":
     user => $user,
     group => $group,
-    url => extlookup('tomcat_package'),
+    url => "http://www.us.apache.org/dist/tomcat/tomcat-7/v7.0.42/bin/apache-tomcat-7.0.42.tar.gz",
   }
   
   class {"datawinners::elasticsearch":}
