@@ -33,5 +33,6 @@ node /(dwdev)\..*/ inherits base_system { # dev
       Exec["initialize-datawinners-environment"],
       File["/home/${user_name}/workspace/datawinners/datawinners/local_settings.py"],
       Exec["install_mangrove_egg"]],
+      notify=> Service["uwsgi"],
   }
 }

@@ -68,6 +68,5 @@ class couchdb (
     group   => 'couchdb',
     mode    => '0755',
   }
-
 }
 
