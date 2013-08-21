@@ -53,7 +53,6 @@ class couchdb (
     owner   => 'couchdb',
     group   => 'couchdb',
     mode    => '0555',
-    loglevel => err,
   }
 
   file { [

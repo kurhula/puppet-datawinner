@@ -45,7 +45,6 @@ class datawinners ($user = 'datawinners', $group = 'datawinners', $database_name
     group   => "${group}",
     recurse => true,
     require => User["${user}"],
-    loglevel => err,
   }
 
   vcsrepo { "${home_dir}/workspace/datawinners":
@@ -67,7 +66,6 @@ class datawinners ($user = 'datawinners', $group = 'datawinners', $database_name
     owner   => "${user}",
     group   => "${group}",
     require => [Vcsrepo["${home_dir}/workspace/mangrove"], Vcsrepo["${home_dir}/workspace/datawinners"]],
-    loglevel => err,
   }
 
   package { "postgresql-server-dev-9.1": ensure => present, }
