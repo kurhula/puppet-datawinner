@@ -34,6 +34,12 @@ class datawinners ($user = 'datawinners', $group = 'datawinners', $database_name
     group => $group,
   }
   
+  class {"datawinners::tomcat":
+    user => $user,
+    group => $group,
+    url => extlookup('tomcat_package'),
+  }
+  
   class {"datawinners::elasticsearch":}
 
   # ################## Datawinners app repositories ####################
