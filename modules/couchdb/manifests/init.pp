@@ -49,26 +49,8 @@ class couchdb (
     timeout => 120,
   }
 
-  file { "/opt/apache-couchdb":
-    recurse => true,
-    owner   => 'couchdb',
-    group   => 'couchdb',
-    mode    => '0555',
-    require => Exec["install-couchdb"],
-  }
-
-  file { [
-    "/opt/apache-couchdb/var",
-    "/opt/apache-couchdb/var/lib",
-    "/opt/apache-couchdb/var/log",
-    "/opt/apache-couchdb/var/log/couchdb",
-    "/opt/apache-couchdb/var/run",
-    "/opt/apache-couchdb/var/run/couchdb"]:
-    require => Exec['install-couchdb'],
-    ensure  => 'directory',
-    owner   => 'couchdb',
-    group   => 'couchdb',
-    mode    => '0755',
+  exec {"couchdb_dir":
+    command => "/bin/chown -R couchdb:couchdb /opt/apache-couchdb && /bin/mkdir -p /opt/apache-couchdb/var/log/couchdb && /bin/mkdir -p /opt/apache-couchdb/var/run/couchdb"
   }
 }
 

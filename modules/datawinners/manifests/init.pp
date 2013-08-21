@@ -55,7 +55,7 @@ class datawinners ($user = 'datawinners', $group = 'datawinners', $database_name
     ensure  => directory,
     owner   => "${user}",
     group   => "${group}",
-    recurse => true,
+    #recurse => true,
     require => User["${user}"],
   }
 

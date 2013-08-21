@@ -7,6 +7,7 @@ class datawinners::elasticsearch ($url) {
     path      => '/usr/local/bin:/bin:/sbin:/usr/bin:/usr/sbin',
     logoutput => "on_failure",
     command   => "wget ${url}",
+    creates => "/var/tmp/${elasticsearch_package}",
   }
 
   package { "elasticsearch-install":
