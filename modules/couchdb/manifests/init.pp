@@ -32,6 +32,7 @@ class couchdb (
     path    => ['/usr/local/bin', '/usr/bin', '/bin',],
     command => "wget -q ${package_location} -O ${package_name}",
     timeout => 120,
+    creates => "/etc/init.d/couchdbmain",
   }
 
   file { "/opt/${package_name}":
@@ -53,6 +54,7 @@ class couchdb (
     owner   => 'couchdb',
     group   => 'couchdb',
     mode    => '0555',
+    require => Exec["install-couchdb"],
   }
 
   file { [

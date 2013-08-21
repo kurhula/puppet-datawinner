@@ -27,7 +27,7 @@ node /(dwdev)\..*/ inherits base_system { # dev
     command   => "/bin/sh -c \". /home/${user_name}/virtual_env/datawinners/bin/activate \
       && cd /home/${user_name}/workspace/datawinners \
       && /home/${user_name}/workspace/datawinners/build.sh rsdb\"",
-    user      => $user_name,
+    user      => "${user_name}",
     logoutput => "on_failure",
     require   => [
       Exec["initialize-datawinners-environment"],
