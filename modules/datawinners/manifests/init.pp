@@ -103,6 +103,7 @@ class datawinners ($user = 'datawinners', $group = 'datawinners', $database_name
   exec { "initialize-datawinners-environment":
     command => "${home_dir}/workspace/datawinners/init_ubuntu_12.04.sh",
     user => $user,
+    logoutput => "on_failure",
     require => [Python::Requirements["${home_dir}/workspace/datawinners/requirements.pip"] , Class["datawinners::postgres"]],
   }
 

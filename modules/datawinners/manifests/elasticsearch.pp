@@ -6,6 +6,7 @@ class datawinners::elasticsearch ($url = "https://download.elasticsearch.org/ela
   exec { "download-elasticsearch":
     cwd     => "/var/tmp",
     path    => '/usr/local/bin:/bin:/sbin:/usr/bin:/usr/sbin',
+    logoutput => "on_failure",
     command => "wget ${url}",
   }
 
