@@ -1,5 +1,5 @@
 
-class datawinners ($user = 'datawinners', $group = 'datawinners', $database_name = 'mangrove') {
+class datawinners ($user = 'datawinners', $group = 'datawinners', $database_user = 'mangrover', $database_name = 'mangrove') {
   group { "${group}": ensure => "present", }
 
   user { "${user}":
@@ -23,7 +23,7 @@ class datawinners ($user = 'datawinners', $group = 'datawinners', $database_name
   }
 
   class { "datawinners::postgres":
-    user          => "${user}",
+    database_user => "${database_user}",
     database_name => "${database_name}",
   }
 
@@ -111,7 +111,7 @@ class datawinners ($user = 'datawinners', $group = 'datawinners', $database_name
   }
 
   exec { "initialize-datawinners-environment":
-    command => "${home_dir}/workspace/datawinners/init_ubuntu_12.04.sh",
+    command => "${home_dir}/workspace/datawinners/init_ubuntu_12\\.04\\.sh",
     user      => $user,
     logoutput => "on_failure",
     require   => [Python::Requirements["${home_dir}/workspace/datawinners/requirements.pip"], Class["datawinners::postgres"]],

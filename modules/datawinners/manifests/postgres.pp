@@ -1,4 +1,4 @@
-class datawinners::postgres ($user, $database_name) {
+class datawinners::postgres ($database_user, $database_name) {
   # ####### Postgres installation ############
   class { "postgresql::server":
     config_hash => {
@@ -17,16 +17,16 @@ class datawinners::postgres ($user, $database_name) {
     notify  => Service['postgresql'],
   }
 
-  postgresql::database_user { "${user}":
+  postgresql::database_user { "${database_user}":
     createdb      => true,
     superuser     => true,
-    password_hash => postgresql_password("${user}", "${user}"),
+    password_hash => postgresql_password("${database_user}", "${database_user}"),
     require       => File["$pg_conf_include_file"],
   }
 
   postgresql::database { "${database_name}":
-    owner   => "${user}",
+    owner   => "${database_user}",
     charset => 'utf8',
-    require => Postgresql::Database_user["${user}"],
+    require => Postgresql::Database_user["${database_user}"],
   }
 }
