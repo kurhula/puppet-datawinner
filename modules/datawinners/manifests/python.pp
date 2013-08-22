@@ -15,19 +15,17 @@ class datawinners::python ($user, $group) {
     require    => Exec["update-apt-get"],
   }
 
-  python::virtualenv { "${home_dir}/virtual_env/datawinners":
+  ::python::virtualenv { "${home_dir}/virtual_env/datawinners":
     ensure  => present,
     owner   => "${user}",
     group   => "${group}",
     require => Class['::python'],
-  }
-
-  python::pip { "pip":
+  } ->
+  ::python::pip { "pip":
     virtualenv => "${home_dir}/virtual_env/datawinners",
     owner      => "${user}",
     require    => User["${user}"],
-  }
-
+  } ->
   package { "python-gdal":
     ensure  => "present",
     require => Class['::python'],

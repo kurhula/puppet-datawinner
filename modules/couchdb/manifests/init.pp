@@ -49,8 +49,8 @@ class couchdb (
     timeout => 120,
   }
 
-  exec {"couchdb_dir":
-    command => "/bin/chown -R couchdb:couchdb /opt/apache-couchdb && /bin/mkdir -p /opt/apache-couchdb/var/log/couchdb && /bin/mkdir -p /opt/apache-couchdb/var/run/couchdb"
+  exec { "couchdb_dir":
+    command => "/bin/chown -R couchdb:couchdb /opt/apache-couchdb && /bin/mkdir -p /opt/apache-couchdb/var/log/couchdb && /bin/mkdir -p /opt/apache-couchdb/var/run/couchdb",
+    require => Exec["install-couchdb"],
   }
 }
-
