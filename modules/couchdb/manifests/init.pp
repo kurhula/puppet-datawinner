@@ -50,7 +50,8 @@ class couchdb (
   }
 
   exec { "couchdb_dir":
-    command => "/bin/chown -R couchdb:couchdb /opt/apache-couchdb && /bin/mkdir -p /opt/apache-couchdb/var/log/couchdb && /bin/mkdir -p /opt/apache-couchdb/var/run/couchdb",
+    command => "/bin/mkdir -p /opt/apache-couchdb/var/log/couchdb && /bin/mkdir -p /opt/apache-couchdb/var/run/couchdb \
+                && /bin/mkdir -p /opt/apache-couchdb/var/lib && /bin/chown -R couchdb:couchdb /opt/apache-couchdb",
     require => Exec["install-couchdb"],
   }
 }
