@@ -11,12 +11,13 @@ class datawinners ($user = 'datawinners', $group = 'datawinners', $database_name
   }
   $home_dir = "/home/${user}"
 
-  exec{"java_installed": command=>"/usr/bin/which java"}
+  exec { "java_installed": command => "/usr/bin/which java" }
 
-  exec {"check_couchdb":
-  command => '/bin/true',
-  onlyif => '/usr/bin/test -e /etc/init.d/couchdbmain',
+  exec { "check_couchdb":
+    command => '/bin/true',
+    onlyif  => '/usr/bin/test -e /etc/init.d/couchdbmain',
   }
+
   class { "datawinners::couchdb":
     require => Exec["check_couchdb"],
   }
@@ -35,16 +36,16 @@ class datawinners ($user = 'datawinners', $group = 'datawinners', $database_name
     user  => $user,
     group => $group,
   }
-  
-  class {"datawinners::tomcat":
-    user => $user,
-    group => $group,
-    url => "http://www.us.apache.org/dist/tomcat/tomcat-7/v7.0.42/bin/apache-tomcat-7.0.42.tar.gz",
+
+  class { "datawinners::tomcat":
+    user    => $user,
+    group   => $group,
+    url     => "http://www.us.apache.org/dist/tomcat/tomcat-7/v7.0.42/bin/apache-tomcat-7.0.42.tar.gz",
     require => Exec["java_installed"],
   }
-  
-  class {"datawinners::elasticsearch":
-    url => "https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-0.90.3.deb",
+
+  class { "datawinners::elasticsearch":
+    url     => "https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-0.90.3.deb",
     require => Exec["java_installed"],
   }
 
@@ -55,7 +56,6 @@ class datawinners ($user = 'datawinners', $group = 'datawinners', $database_name
     ensure  => directory,
     owner   => "${user}",
     group   => "${group}",
-    #recurse => true,
     require => User["${user}"],
   }
 
@@ -63,6 +63,8 @@ class datawinners ($user = 'datawinners', $group = 'datawinners', $database_name
     ensure   => present,
     provider => git,
     source   => 'git://github.com/mangroveorg/datawinners.git',
+    owner    => "${user}",
+    group    => "${group}",
     require  => File["${home_dir}"],
   }
 
@@ -70,6 +72,8 @@ class datawinners ($user = 'datawinners', $group = 'datawinners', $database_name
     ensure   => present,
     provider => git,
     source   => 'git://github.com/mangroveorg/mangrove.git',
+    owner    => "${user}",
+    group    => "${group}",
     require  => File["${home_dir}"],
   }
 
@@ -108,14 +112,14 @@ class datawinners ($user = 'datawinners', $group = 'datawinners', $database_name
 
   exec { "initialize-datawinners-environment":
     command => "${home_dir}/workspace/datawinners/init_ubuntu_12.04.sh",
-    user => $user,
+    user      => $user,
     logoutput => "on_failure",
-    require => [Python::Requirements["${home_dir}/workspace/datawinners/requirements.pip"] , Class["datawinners::postgres"]],
+    require   => [Python::Requirements["${home_dir}/workspace/datawinners/requirements.pip"], Class["datawinners::postgres"]],
   }
 
   class { "datawinners::nginx":
-    home_dir => "${home_dir}",
+    home_dir         => "${home_dir}",
     package_location => 'http://nginx.org/download/nginx-1.2.9.tar.gz',
-    package_name => 'nginx-1.2.9'
+    package_name     => 'nginx-1.2.9'
   }
 }

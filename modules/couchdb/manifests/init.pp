@@ -31,7 +31,7 @@ class couchdb (
     cwd     => '/opt/',
     path    => ['/usr/local/bin', '/usr/bin', '/bin',],
     command => "wget -q ${package_location} -O ${package_name}",
-    timeout => 120,
+    timeout => 600,
     creates => "/etc/init.d/couchdbmain",
   }
 
