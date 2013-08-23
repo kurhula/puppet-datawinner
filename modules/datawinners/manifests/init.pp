@@ -1,5 +1,5 @@
 
-class datawinners ($user = 'datawinners', $group = 'datawinners', $database_user = 'mangrover', $database_name = 'mangrove') {
+class datawinners ($user = 'mangrover', $group = 'mangrover', $database_name = 'mangrove') {
   group { "${group}": ensure => "present", }
 
   user { "${user}":
@@ -23,9 +23,8 @@ class datawinners ($user = 'datawinners', $group = 'datawinners', $database_user
   }
 
   class { "datawinners::postgres":
-    database_user => "${database_user}",
+    database_user => "${user}",
     database_name => "${database_name}",
-    user => "${user}",
   }
 
   class { "datawinners::uwsgi_configure":
@@ -118,6 +117,14 @@ class datawinners ($user = 'datawinners', $group = 'datawinners', $database_user
     require   => [Python::Requirements["${home_dir}/workspace/datawinners/requirements.pip"], Class["datawinners::postgres"]],
   }
 
+  file { "/home/${user}/google": ensure => directory }
+
+  file { "${home_dir}/google/google3756418eb1f4bb6c.html":
+    content => "google3756418eb1f4bb6c.html",
+    owner   => "nginx",
+    group   => "nginx",
+    mode    => 0666,
+  }
   class { "datawinners::nginx":
     home_dir         => "${home_dir}",
     package_location => 'http://nginx.org/download/nginx-1.2.9.tar.gz',

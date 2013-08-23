@@ -79,13 +79,4 @@ class datawinners::nginx_config ($home_dir, $package_location, $package_name) {
     source  => "puppet:///modules/datawinners/certificates/server.key",
     require => File["${home_dir}/certificates"],
   }
-
-  file { "/home/datawinners/google": ensure => directory }
-
-  file { "${home_dir}/google/google3756418eb1f4bb6c.html":
-    content => "google3756418eb1f4bb6c.html",
-    owner   => "nginx",
-    group   => "nginx",
-    mode    => 0666,
-  }
 }

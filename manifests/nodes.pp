@@ -1,5 +1,5 @@
 node base_system {
-  $user_name = "datawinners"
+  $user_name = "mangrover"
 
   class { "datawinners":
     user  => $user_name,
