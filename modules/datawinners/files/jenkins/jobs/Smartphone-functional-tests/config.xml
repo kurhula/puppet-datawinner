@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <description></description>
+  <logRotator>
+    <daysToKeep>-1</daysToKeep>
+    <numToKeep>3</numToKeep>
+    <artifactDaysToKeep>-1</artifactDaysToKeep>
+    <artifactNumToKeep>-1</artifactNumToKeep>
+  </logRotator>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <hudson.security.AuthorizationMatrixProperty>
+      <permission>hudson.scm.SCM.Tag:ashwinii</permission>
+      <permission>hudson.model.Item.Read:jwickstra</permission>
+      <permission>hudson.model.Item.Read:iambowen</permission>
+      <permission>hudson.model.Item.Read:ashish</permission>
+      <permission>hudson.model.Item.Read:zyang</permission>
+      <permission>hudson.model.Item.Read:kkraft</permission>
+      <permission>hudson.model.Item.Read:dreed</permission>
+      <permission>hudson.model.Item.Read:ashwinii</permission>
+      <permission>hudson.model.Item.Read:iamroody</permission>
+      <permission>hudson.model.Item.Read:ritesh</permission>
+      <permission>hudson.model.Item.Read:gcwei</permission>
+      <permission>hudson.model.Item.Read:anishek</permission>
+      <permission>hudson.model.Item.Read:geetchan</permission>
+      <permission>hudson.model.Item.Delete:ritesh</permission>
+      <permission>hudson.model.Item.Delete:anishek</permission>
+      <permission>hudson.model.Item.Workspace:jwickstra</permission>
+      <permission>hudson.model.Item.Workspace:iambowen</permission>
+      <permission>hudson.model.Item.Workspace:ashish</permission>
+      <permission>hudson.model.Item.Workspace:zyang</permission>
+      <permission>hudson.model.Item.Workspace:kkraft</permission>
+      <permission>hudson.model.Item.Workspace:dreed</permission>
+      <permission>hudson.model.Item.Workspace:ashwinii</permission>
+      <permission>hudson.model.Item.Workspace:ritesh</permission>
+      <permission>hudson.model.Item.Workspace:gcwei</permission>
+      <permission>hudson.model.Item.Workspace:anishek</permission>
+      <permission>hudson.model.Item.Workspace:geetchan</permission>
+      <permission>hudson.model.Run.Update:ashwinii</permission>
+      <permission>hudson.model.Run.Update:ritesh</permission>
+      <permission>hudson.model.Run.Update:anishek</permission>
+      <permission>hudson.model.Item.Build:jwickstra</permission>
+      <permission>hudson.model.Item.Build:iambowen</permission>
+      <permission>hudson.model.Item.Build:ashish</permission>
+      <permission>hudson.model.Item.Build:zyang</permission>
+      <permission>hudson.model.Item.Build:kkraft</permission>
+      <permission>hudson.model.Item.Build:dreed</permission>
+      <permission>hudson.model.Item.Build:ashwinii</permission>
+      <permission>hudson.model.Item.Build:iamroody</permission>
+      <permission>hudson.model.Item.Build:ritesh</permission>
+      <permission>hudson.model.Item.Build:gcwei</permission>
+      <permission>hudson.model.Item.Build:anishek</permission>
+      <permission>hudson.model.Item.Build:geetchan</permission>
+      <permission>hudson.model.Item.Configure:jwickstra</permission>
+      <permission>hudson.model.Item.Configure:iambowen</permission>
+      <permission>hudson.model.Item.Configure:ashish</permission>
+      <permission>hudson.model.Item.Configure:zyang</permission>
+      <permission>hudson.model.Item.Configure:kkraft</permission>
+      <permission>hudson.model.Item.Configure:dreed</permission>
+      <permission>hudson.model.Item.Configure:ashwinii</permission>
+      <permission>hudson.model.Item.Configure:iamroody</permission>
+      <permission>hudson.model.Item.Configure:ritesh</permission>
+      <permission>hudson.model.Item.Configure:gcwei</permission>
+      <permission>hudson.model.Item.Configure:anishek</permission>
+      <permission>hudson.model.Item.Configure:geetchan</permission>
+      <permission>hudson.model.Run.Delete:ashwinii</permission>
+      <permission>hudson.model.Run.Delete:ritesh</permission>
+      <permission>hudson.model.Run.Delete:anishek</permission>
+    </hudson.security.AuthorizationMatrixProperty>
+    <hudson.queueSorter.PrioritySorterJobProperty>
+      <priority>90</priority>
+    </hudson.queueSorter.PrioritySorterJobProperty>
+    <com.gmail.ikeike443.PlayAutoTestJobProperty/>
+  </properties>
+  <scm class="hudson.scm.NullSCM"/>
+  <assignedNode>smartphone</assignedNode>
+  <canRoam>false</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers class="vector"/>
+  <concurrentBuild>false</concurrentBuild>
+  <customWorkspace>/home/mangrover/datawinners</customWorkspace>
+  <builders>
+    <hudson.tasks.Shell>
+      <command>export ANDROID_HOME=/var/lib/jenkins/android-sdk-linux
+export PATH=/usr/local/bin:/bin:/usr/bin:/sbin:/usr/sbin:/var/lib/jenkins/android-sdk-linux/platform-tools:/var/lib/jenkins/android-sdk-linux/tools:
+export DISPLAY=&quot;:1&quot;
+emulator -cpu-delay 0 -no-boot-anim -avd dw &amp;
+adb wait-for-device 
+sleep 30
+adb install -r /var/lib/jenkins/jobs/Datawinners-SmartPhone/workspace/Datawinners-SmartPhone/datawinners-smartphone/bin/datawinners-smartphone-debug.apk
+cd /var/lib/jenkins/jobs/Datawinners-SmartPhone/workspace/Datawinners-SmartPhone/functional-tests
+ant debug
+adb install -r /var/lib/jenkins/jobs/Datawinners-SmartPhone/workspace/Datawinners-SmartPhone/functional-tests/bin/automation-debug.apk
+adb shell input keyevent 82
+adb shell am instrument -w com.datawinners.android.collect.test/android.test.InstrumentationTestRunner
+killall emulator-arm</command>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers>
+    <hudson.plugins.emotional__hudson.EmotionalHudsonPublisher/>
+    <net.hurstfrost.hudson.sounds.HudsonSoundsNotifier>
+      <soundEvents/>
+    </net.hurstfrost.hudson.sounds.HudsonSoundsNotifier>
+    <hudson.plugins.statusmonitor.MonitorPublisher/>
+  </publishers>
+  <buildWrappers/>
+</project>

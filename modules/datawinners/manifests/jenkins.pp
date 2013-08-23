@@ -1,3 +1,16 @@
+define datawinners::jenkins_job () {
+  $job_name = $title
+  file { "/var/lib/jenkins/jobs/${job_name}":
+    ensure => directory,
+    owner  => 'jenkins'
+  }
+
+  file { "/var/lib/jenkins/jobs/${job_name}/config.xml":
+    source => "puppet:///datawinners/jenkins/jobs/${job_name}/config.xml",
+    ensure => "present",
+    owner  => "jenkins"
+  }
+}
 
 class datawinners::jenkins {
   class { '::jenkins':
@@ -11,21 +24,34 @@ class datawinners::jenkins {
       'sidebar-link' => { version => '1.6'},
       'radiatorviewplugin' => { version => '1.13'},
       'show-build-parameters' => { version => '1.0'},
+      'ssh-credentials' => { version => '1.3'},
+      'ssh-slaves' => { version => '1.2'},
     }
   }->
   file {"/var/lib/jenkins/config.xml":
     source => "puppet:///datawinners/jenkins/config.xml",
     owner => "jenkins",
+  } ->
+  file {"/home/jenkins":
+    ensure => directory,
+    owner => "jenkins",
+    mode => 755,
+  } ->
+  file {"/var/log/datawinners":
+    ensure => directory,
+    mode => 777,
+  } ->
+  package {"curl":
+    ensure => present,
   }->
-  file {"/tmp/jenkins_jobs.tar.gz":
-    source => "puppet:///datawinners/jenkins/jenkins_jobs.tar.gz",
-    owner => "jenkins",    
-  }->
-  exec {"extract_jenkins_jobs":
-    command => "tar -xvzf /tmp/jenkins_jobs.tar.gz",
-    cwd => "/var/lib/jenkins",
-    user => "jenkins",
-    notify => Service["jenkins"],
-  }
+  exec {"create-jenkins-db-user":
+    command => "/usr/bin/createuser --super jenkins && /usr/bin/createdb testingdb -T template_postgis",
+  } ->
+  exec {"set_git_username":
+    command => "/usr/bin/git config --global user.name Jenkins && /usr/bin/git config --global user.email 'jenkins@example.com'"
+  } ->
+  #add git user name and email 
   
+  datawinners::jenkins_job {"Mangrove-develop":} ->
+  datawinners::jenkins_job {"Datawinners-develop":}
 }

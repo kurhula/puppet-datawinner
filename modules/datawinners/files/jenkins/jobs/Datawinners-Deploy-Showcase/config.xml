@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <hudson.security.AuthorizationMatrixProperty>
+      <permission>hudson.model.Item.Workspace:ravi3010</permission>
+      <permission>hudson.model.Item.Workspace:poojas2406</permission>
+      <permission>hudson.model.Item.Workspace:asifmomin</permission>
+      <permission>hudson.model.Item.Workspace:ritesh</permission>
+      <permission>hudson.model.Item.Workspace:sai</permission>
+      <permission>hudson.model.Item.Build:ravi3010</permission>
+      <permission>hudson.model.Item.Build:poojas2406</permission>
+      <permission>hudson.model.Item.Build:asifmomin</permission>
+      <permission>hudson.model.Item.Build:ritesh</permission>
+      <permission>hudson.model.Item.Build:sai</permission>
+      <permission>hudson.model.Item.Read:ravi3010</permission>
+      <permission>hudson.model.Item.Read:poojas2406</permission>
+      <permission>hudson.model.Item.Read:asifmomin</permission>
+      <permission>hudson.model.Item.Read:ritesh</permission>
+      <permission>hudson.model.Item.Read:sai</permission>
+      <permission>hudson.model.Run.Update:ravi3010</permission>
+      <permission>hudson.model.Run.Update:poojas2406</permission>
+      <permission>hudson.model.Run.Update:asifmomin</permission>
+      <permission>hudson.model.Run.Update:ritesh</permission>
+      <permission>hudson.model.Run.Update:sai</permission>
+      <permission>hudson.model.Item.Delete:ravi3010</permission>
+      <permission>hudson.model.Item.Delete:asifmomin</permission>
+      <permission>hudson.model.Item.Delete:ritesh</permission>
+      <permission>hudson.model.Item.Delete:sai</permission>
+      <permission>hudson.model.Item.Configure:ravi3010</permission>
+      <permission>hudson.model.Item.Configure:poojas2406</permission>
+      <permission>hudson.model.Item.Configure:asifmomin</permission>
+      <permission>hudson.model.Item.Configure:ritesh</permission>
+      <permission>hudson.model.Item.Configure:sai</permission>
+      <permission>hudson.model.Run.Delete:ravi3010</permission>
+      <permission>hudson.model.Run.Delete:asifmomin</permission>
+      <permission>hudson.model.Run.Delete:ritesh</permission>
+      <permission>hudson.model.Run.Delete:sai</permission>
+    </hudson.security.AuthorizationMatrixProperty>
+    <hudson.queueSorter.PrioritySorterJobProperty>
+      <priority>200</priority>
+    </hudson.queueSorter.PrioritySorterJobProperty>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <hudson.model.StringParameterDefinition>
+          <name>MANGROVE_VERSION</name>
+          <description></description>
+          <defaultValue>lastSuccessfulBuild</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>DATAWINNER_VERSION</name>
+          <description>Datawinners successful build number.
+Use &apos;lastSuccessfulBuild&apos; for the last successful build.</description>
+          <defaultValue>lastSuccessfulBuild</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.ChoiceParameterDefinition>
+          <name>ENVIRON</name>
+          <description></description>
+          <choices class="java.util.Arrays$ArrayList">
+            <a class="string-array">
+              <string>showcase</string>
+            </a>
+          </choices>
+        </hudson.model.ChoiceParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
+    <com.gmail.ikeike443.PlayAutoTestJobProperty/>
+  </properties>
+  <scm class="hudson.scm.NullSCM"/>
+  <assignedNode>Deployment</assignedNode>
+  <canRoam>false</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers class="vector"/>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <hudson.tasks.Shell>
+      <command>. /home/mangrover/awe_ve/bin/activate
+cd /var/lib/jenkins/jobs/Datawinners-7_1_release/workspace/datawinners
+git pull origin 7_1_release
+fab $ENVIRON production_deploy:mangrove_build_number=$MANGROVE_VERSION,datawinner_build_number=$DATAWINNER_VERSION,code_dir=&quot;/home/mangrover/deploy&quot;,environment=$ENVIRON,branch_name=&quot;origin/7_1_release&quot;</command>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers>
+    <hudson.plugins.chucknorris.CordellWalkerRecorder>
+      <factGenerator/>
+    </hudson.plugins.chucknorris.CordellWalkerRecorder>
+    <hudson.plugins.emotional__hudson.EmotionalHudsonPublisher/>
+    <hudson.plugins.ircbot.IrcPublisher>
+      <targets>
+        <hudson.plugins.im.GroupChatIMMessageTarget>
+          <name>#mangrove</name>
+          <notificationOnly>false</notificationOnly>
+        </hudson.plugins.im.GroupChatIMMessageTarget>
+      </targets>
+      <strategy>ALL</strategy>
+      <notifyOnBuildStart>false</notifyOnBuildStart>
+      <notifySuspects>false</notifySuspects>
+      <notifyCulprits>false</notifyCulprits>
+      <notifyFixers>false</notifyFixers>
+      <notifyUpstreamCommitters>false</notifyUpstreamCommitters>
+      <buildToChatNotifier class="hudson.plugins.im.build_notify.DefaultBuildToChatNotifier"/>
+      <matrixMultiplier>ONLY_CONFIGURATIONS</matrixMultiplier>
+      <channels/>
+    </hudson.plugins.ircbot.IrcPublisher>
+    <net.hurstfrost.hudson.sounds.HudsonSoundsNotifier>
+      <soundEvents/>
+    </net.hurstfrost.hudson.sounds.HudsonSoundsNotifier>
+    <hudson.plugins.statusmonitor.MonitorPublisher/>
+  </publishers>
+  <buildWrappers/>
+</project>
