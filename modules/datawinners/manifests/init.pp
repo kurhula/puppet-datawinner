@@ -25,6 +25,7 @@ class datawinners ($user = 'datawinners', $group = 'datawinners', $database_user
   class { "datawinners::postgres":
     database_user => "${database_user}",
     database_name => "${database_name}",
+    user => "${user}",
   }
 
   class { "datawinners::uwsgi_configure":
