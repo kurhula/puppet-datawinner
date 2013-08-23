@@ -37,3 +37,8 @@ node /(dwdev)\..*/ inherits base_system { # dev
       notify=> Service["uwsgi"],
   }
 }
+
+node /(dwci)\..*/ inherits base_system{
+  class{ "datawinners::jenkins":   
+  }
+}
