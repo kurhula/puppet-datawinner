@@ -61,9 +61,6 @@ class datawinners::jenkins {
     group   => "jenkins",
     require => Class['::python'],
   } ->
-  package {"curl":
-    ensure => present,
-  }->
   exec {"create-jenkins-db-user":
     command => "/usr/bin/createuser --super jenkins && /usr/bin/createdb testingdb -T template_postgis",
   } ->
