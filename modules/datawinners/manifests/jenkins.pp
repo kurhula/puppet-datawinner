@@ -70,7 +70,8 @@ class datawinners::jenkins {
     user => 'postgres',
   } ->
   exec {"set_git_username":
-    command => "/usr/bin/git config --global user.name Jenkins && /usr/bin/git config --global user.email 'jenkins@example.com'"
+    command => "/usr/bin/git config --global user.name Jenkins && /usr/bin/git config --global user.email 'jenkins@example.com'",
+    user => "jenkins"
   } ->
   exec {"add_jenkins_to_mangrover_group":
     command => "/usr/sbin/usermod  -a -G mangrover jenkins",
@@ -89,7 +90,7 @@ class datawinners::jenkins {
     user => "mangrover",
     creates => "/home/mangrover/.ssh/id_rsa"
   } -> exec {"add_jenkins_key_to_mangrover":
-    command => "/bin/cat /home/jenkins/.ssh/id_rsa.pub>>/home/mangrover/.ssh/authorized_keys",
+    command => "/bin/grep jenkins /home/mangrover/.ssh/authorized_keys>>/dev/null || /bin/cat /home/jenkins/.ssh/id_rsa.pub>>/home/mangrover/.ssh/authorized_keys",
     notify => Service["jenkins"]
   } 
   package{"firefox":
