@@ -62,7 +62,7 @@ class datawinners::jenkins {
     require => Class['::python'],
   } ->
   exec {"create-jenkins-db-user":
-    command => "/usr/bin/createuser --super jenkins && /usr/bin/createdb testingdb -T template_postgis",
+    command => "/usr/bin/createuser --super jenkins && /usr/bin/createdb testingdb",
   } ->
   exec {"set_git_username":
     command => "/usr/bin/git config --global user.name Jenkins && /usr/bin/git config --global user.email 'jenkins@example.com'"
