@@ -17,12 +17,6 @@ class datawinners::uwsgi_configure ($user, $group) {
     group  => "${group}",
     mode   => "755",
   } ->
-  file { "/var/log/datawinners":
-    ensure => "directory",
-    owner  => "${user}",
-    group  => "${group}",
-    mode   => "755",
-  } ->
   service { 'uwsgi':
     ensure => 'running',
     enable => true,

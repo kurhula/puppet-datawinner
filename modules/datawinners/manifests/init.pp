@@ -8,7 +8,13 @@ class datawinners ($user = 'mangrover', $group = 'mangrover', $database_name = '
     gid        => "${group}",
     require    => Group["${group}"],
     shell      => "/bin/bash",
-  }
+  }->
+  file { "/var/log/datawinners":
+    ensure => directory,
+    owner  => "${user}",
+    group  => "${group}",
+    mode   => "777",
+  } 
   $home_dir = "/home/${user}"
 
   exec { "java_installed": command => "/usr/bin/which java" }
@@ -30,6 +36,7 @@ class datawinners ($user = 'mangrover', $group = 'mangrover', $database_name = '
   class { "datawinners::uwsgi_configure":
     user  => "${user}",
     group => "${group}",
+    require => File["/var/log/datawinners"],
   }
 
   class { "datawinners::python":

@@ -61,10 +61,6 @@ class datawinners::jenkins {
     group   => "jenkins",
     require => Class['::python'],
   } ->
-  file {"/var/log/datawinners":
-    ensure => directory,
-    mode => 777,
-  } ->
   package {"curl":
     ensure => present,
   }->
