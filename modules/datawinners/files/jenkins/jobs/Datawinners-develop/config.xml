@@ -55,7 +55,7 @@
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <hudson.tasks.Shell>
-      <command>. /home/jenkins/virtual_env/datawinner/bin/activate
+      <command>. /home/jenkins/virtual_env/datawinners/bin/activate
 pip install -r requirements.pip --download-cache=~/.pip-download-cache/
 cd ../../Mangrove-develop/workspace  &amp;&amp; python setup.py develop
 cd ../../Datawinners-develop/workspace/datawinners
@@ -73,7 +73,7 @@ deactivate</command>
   </builders>
   <publishers>
     <hudson.tasks.BuildTrigger>
-      <childProjects>Smoke Test</childProjects>
+      <childProjects>Smoke_Test</childProjects>
       <threshold>
         <name>SUCCESS</name>
         <ordinal>0</ordinal>

@@ -66,7 +66,7 @@
 #if [ $COMMIT_SHA != $CURRENT_SHA ]
 #then
 
-. /home/jenkins/virtual_env/datawinner/bin/activate
+. /home/jenkins/virtual_env/datawinners/bin/activate
 pip install -r requirements.pip --download-cache=~/.pip-download-cache/
 #nosetests
 curl -X DELETE http://admin:admin@localhost:5984/mangrove-test-unit || echo &quot;db not there&quot;

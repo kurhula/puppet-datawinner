@@ -14,6 +14,7 @@
     <permission>hudson.model.Computer.Disconnect:developer</permission>
     <permission>hudson.model.Hudson.Administer:developer</permission>
     <permission>hudson.model.Hudson.ConfigureUpdateCenter:developer</permission>
+    <permission>hudson.model.Hudson.Read:anonymous</permission>
     <permission>hudson.model.Hudson.Read:developer</permission>
     <permission>hudson.model.Hudson.RunScripts:developer</permission>
     <permission>hudson.model.Hudson.UploadPlugins:developer</permission>
@@ -23,12 +24,16 @@
     <permission>hudson.model.Item.Create:developer</permission>
     <permission>hudson.model.Item.Delete:developer</permission>
     <permission>hudson.model.Item.Discover:developer</permission>
+    <permission>hudson.model.Item.Read:anonymous</permission>
     <permission>hudson.model.Item.Read:developer</permission>
     <permission>hudson.model.Item.Workspace:developer</permission>
+    <permission>hudson.model.Run.Delete:developer</permission>
+    <permission>hudson.model.Run.Update:developer</permission>
     <permission>hudson.model.View.Configure:developer</permission>
     <permission>hudson.model.View.Create:developer</permission>
     <permission>hudson.model.View.Delete:developer</permission>
     <permission>hudson.model.View.Read:developer</permission>
+    <permission>hudson.scm.SCM.Tag:developer</permission>
   </authorizationStrategy>
   <securityRealm class="hudson.security.HudsonPrivateSecurityRealm">
     <disableSignup>false</disableSignup>
@@ -52,10 +57,10 @@
       <numExecutors>1</numExecutors>
       <mode>EXCLUSIVE</mode>
       <retentionStrategy class="hudson.slaves.RetentionStrategy$Always"/>
-      <launcher class="hudson.plugins.sshslaves.SSHLauncher">
+      <launcher class="hudson.plugins.sshslaves.SSHLauncher" plugin="ssh-slaves@0.25">
         <host>178.79.163.33</host>
         <port>22</port>
-        <password>4cQ18HrFMv2yQKUP4WV0Tw==</password>
+        <credentialsId>61905d22-7397-4bdc-9c61-ff560e98d138</credentialsId>
       </launcher>
       <label></label>
       <nodeProperties/>
@@ -67,10 +72,10 @@
       <numExecutors>1</numExecutors>
       <mode>EXCLUSIVE</mode>
       <retentionStrategy class="hudson.slaves.RetentionStrategy$Always"/>
-      <launcher class="hudson.plugins.sshslaves.SSHLauncher">
+      <launcher class="hudson.plugins.sshslaves.SSHLauncher" plugin="ssh-slaves@0.25">
         <host>178.79.163.33</host>
         <port>22</port>
-        <password>4cQ18HrFMv2yQKUP4WV0Tw==</password>
+        <credentialsId>61905d22-7397-4bdc-9c61-ff560e98d138</credentialsId>
       </launcher>
       <label></label>
       <nodeProperties/>
@@ -92,7 +97,7 @@
       <filterExecutors>false</filterExecutors>
       <filterQueue>false</filterQueue>
       <properties class="hudson.model.View$PropertyList"/>
-      <jobNames class="tree-set">
+      <jobNames>
         <comparator class="hudson.util.CaseInsensitiveComparator"/>
         <string>Datawinners-functional-tests</string>
         <string>Mangrove-develop</string>
@@ -108,25 +113,15 @@
         <hudson.views.LastDurationColumn/>
         <hudson.views.BuildButtonColumn/>
       </columns>
+      <recurse>false</recurse>
     </listView>
-    <au.com.centrumsystems.hudson.plugin.buildpipeline.BuildPipelineView>
-      <owner class="hudson" reference="../../.."/>
-      <name>Build Pipeline View</name>
-      <filterExecutors>false</filterExecutors>
-      <filterQueue>false</filterQueue>
-      <properties class="hudson.model.View$PropertyList"/>
-      <selectedJob>Mangrove-develop</selectedJob>
-      <noOfDisplayedBuilds>10</noOfDisplayedBuilds>
-      <buildViewTitle></buildViewTitle>
-      <triggerOnlyLatestJob>false</triggerOnlyLatestJob>
-    </au.com.centrumsystems.hudson.plugin.buildpipeline.BuildPipelineView>
-    <hudson.model.RadiatorView>
+    <hudson.model.RadiatorView plugin="radiatorviewplugin@1.13">
       <owner class="hudson" reference="../../.."/>
       <name>RadiatorView</name>
       <filterExecutors>false</filterExecutors>
       <filterQueue>false</filterQueue>
       <properties class="hudson.model.View$PropertyList"/>
-      <jobNames class="tree-set">
+      <jobNames>
         <comparator class="hudson.util.CaseInsensitiveComparator"/>
         <string>Datawinners-Deploy-Showcase</string>
         <string>Datawinners-develop</string>
@@ -136,6 +131,7 @@
       </jobNames>
       <jobFilters/>
       <columns/>
+      <recurse>false</recurse>
       <showStable>true</showStable>
       <showStableDetail>true</showStableDetail>
       <highVis>true</highVis>

@@ -13,6 +13,12 @@ define datawinners::jenkins_job () {
 }
 
 class datawinners::jenkins {
+  package {"curl":
+    ensure => present,
+  }->
+  package {"xvfb":
+    ensure => present,
+  }->
   class { '::jenkins':
     plugin_hash => {
       git => { version => '1.1.1' },
@@ -37,6 +43,24 @@ class datawinners::jenkins {
     owner => "jenkins",
     mode => 755,
   } ->
+  file { '/home/mangrover/datawinners':
+      ensure => link,
+      target => '/home/mangrover/workspace/datawinners',
+  } ->
+  file { '/home/mangrover/mangrove':
+      ensure => link,
+      target => '/home/mangrover/workspace/mangrove',
+  } ->
+  file { "/tmp/jenkins_requirement.txt":
+    content => "fabric \nnose \ngunicorn"
+  } ->
+  ::python::virtualenv { "/home/jenkins/virtual_env/datawinners":
+    ensure  => present,
+    requirements => '/tmp/jenkins_requirement.txt',
+    owner   => "jenkins",
+    group   => "jenkins",
+    require => Class['::python'],
+  } ->
   file {"/var/log/datawinners":
     ensure => directory,
     mode => 777,
@@ -50,8 +74,35 @@ class datawinners::jenkins {
   exec {"set_git_username":
     command => "/usr/bin/git config --global user.name Jenkins && /usr/bin/git config --global user.email 'jenkins@example.com'"
   } ->
+  exec {"changing_ownership_mangrove_home":
+    command => "/bin/chown -R mangrover:jenkins /home/mangrover && /bin/chown -R 775 /home/mangrover"
+  } ->
+  exec {"add_jenkins_to_mangrover_group":
+    command => "/usr/sbin/usermod  -a -G mangrover jenkins",
+  }
   #add git user name and email 
   
   datawinners::jenkins_job {"Mangrove-develop":} ->
   datawinners::jenkins_job {"Datawinners-develop":}
+  
+  exec {"create_jenkins_key":
+    command => "/usr/bin/ssh-keygen -t rsa -N '' -f ~/.ssh/id_rsa",
+    creates => "/home/jenkins/.ssh/id_rsa",
+    require => File["/home/jenkins"],
+  } -> exec  { "create_mangrove_key":
+    command => "/usr/bin/ssh-keygen -t rsa -N '' -f ~/.ssh/id_rsa",
+    user => "mangrover",
+    creates => "/home/mangrover/.ssh/id_rsa"
+  } -> exec {"add_jenkins_key_to_mangrover":
+    command => " /bin/cat /home/jenkins/.ssh/id_rsa.pub>>/home/mangrover/.ssh/authorized_keys",
+  }
+  package{"firefox":
+    ensure => present,
+  }
+  postgresql::pg_hba_rule{"postgres_jenkins_access":
+    type => 'local',
+    auth_method => 'trust',
+    database => 'all',
+    user => 'all',
+  }
 }

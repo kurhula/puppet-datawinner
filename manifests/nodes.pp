@@ -1,6 +1,5 @@
-node base_system {
-  $user_name = "mangrover"
 
+class base_system($user_name = 'mangrover') {  
   class { "datawinners":
     user  => $user_name,
     group => $user_name,
@@ -14,7 +13,11 @@ node base_system {
   }
 }
 
-node /(dwdev)\..*/ inherits base_system { # dev
+node /(dwdev)\..*/  { # dev
+  $user_name = $::env_sudo_user
+  class {"base_system":
+    user_name => $user_name 
+  }
   file { "/home/${user_name}/workspace/datawinners/datawinners/local_settings.py":
     source => "/home/${user_name}/workspace/datawinners/datawinners/config/local_settings_example.py",
     ensure => present,
@@ -39,6 +42,19 @@ node /(dwdev)\..*/ inherits base_system { # dev
 }
 
 node /(dwci)\..*/ inherits base_system{
-  class{ "datawinners::jenkins":   
+  class {"base_system": }
+  class{ "datawinners::jenkins":  }
+}
+
+node /(dwqa)\..*/ inherits base_system{
+  $user_name = 'mangrover'
+  class {"base_system":
+    user_name => $user_name 
+  }
+  file { "/home/${user_name}/workspace/datawinners/datawinners/local_settings.py":
+    source => "/home/${user_name}/workspace/datawinners/datawinners/config/local_settings_test.py",
+    ensure => present,
+    owner  => $user_name,
+    group  => $user_name,
   }
 }
