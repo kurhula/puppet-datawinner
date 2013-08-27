@@ -79,12 +79,12 @@ class datawinners::jenkins {
   datawinners::jenkins_job {"Datawinners-develop":}
   
   exec {"create_jenkins_key":
-    command => "/usr/bin/ssh-keygen -t rsa -N '' -f ~/.ssh/id_rsa",
+    command => "/usr/bin/ssh-keygen -t rsa -N '' -f /home/jenkins/.ssh/id_rsa",
     creates => "/home/jenkins/.ssh/id_rsa",
     user => 'jenkins',
     require => File["/home/jenkins"],
   } -> exec  { "create_mangrove_key":
-    command => "/usr/bin/ssh-keygen -t rsa -N '' -f ~/.ssh/id_rsa",
+    command => "/usr/bin/ssh-keygen -t rsa -N '' -f /home/mangrover/.ssh/id_rsa",
     user => "mangrover",
     creates => "/home/mangrover/.ssh/id_rsa"
   } -> exec {"add_jenkins_key_to_mangrover":
