@@ -69,9 +69,10 @@ class datawinners::jenkins {
     command => '/usr/bin/psql -l|grep testingdb>>/dev/null || /usr/bin/createdb testingdb',
     user => 'postgres',
   } ->
-  exec {"set_git_username":
-    command => "/usr/bin/git config --global user.name Jenkins && /usr/bin/git config --global user.email 'jenkins@example.com'",
-    user => "jenkins"
+  file {"/home/jenkins/.gitconfig":
+    source => "puppet:///datawinners/jenkins/gitconfig",
+    owner => "jenkins",
+    group => "jenkins"
   } ->
   exec {"add_jenkins_to_mangrover_group":
     command => "/usr/sbin/usermod  -a -G mangrover jenkins",
