@@ -72,9 +72,6 @@ class datawinners::jenkins {
   exec {"set_git_username":
     command => "/usr/bin/git config --global user.name Jenkins && /usr/bin/git config --global user.email 'jenkins@example.com'"
   } ->
-  exec {"changing_ownership_mangrove_home":
-    command => "/bin/chown -R mangrover:jenkins /home/mangrover && /bin/chown -R 775 /home/mangrover"
-  } ->
   exec {"add_jenkins_to_mangrover_group":
     command => "/usr/sbin/usermod  -a -G mangrover jenkins",
   }
