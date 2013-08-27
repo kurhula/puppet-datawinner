@@ -41,12 +41,12 @@ node /(dwdev)\..*/  { # dev
   }
 }
 
-node /(dwci)\..*/ inherits base_system{
+node /(dwci)\..*/ {
   class {"base_system": }
   class{ "datawinners::jenkins":  }
 }
 
-node /(dwqa)\..*/ inherits base_system{
+node /(dwqa)\..*/ {
   $user_name = 'mangrover'
   class {"base_system":
     user_name => $user_name 
