@@ -83,11 +83,9 @@ class datawinners ($user = 'mangrover', $group = 'mangrover', $database_name = '
     group    => "${group}",
     require  => File["${home_dir}"],
   }
-
-  file { "${home_dir}/workspace":
-    recurse => true,
-    owner   => "${user}",
-    group   => "${group}",
+  
+  exec{"workspace_ownership":
+    command => "/bin/chown -R ${user}:${group} ${home_dir}/workspace",
     require => [Vcsrepo["${home_dir}/workspace/mangrove"], Vcsrepo["${home_dir}/workspace/datawinners"]],
   }
 
@@ -103,7 +101,7 @@ class datawinners ($user = 'mangrover', $group = 'mangrover', $database_name = '
     virtualenv => "${home_dir}/virtual_env/datawinners",
     owner      => "${user}",
     group      => "${group}",
-    require    => [File["${home_dir}/workspace"], Python::Requirements["${home_dir}/workspace/mangrove/requirements.pip"]],
+    require    => [Exec["workspace_ownership"], Python::Requirements["${home_dir}/workspace/mangrove/requirements.pip"]],
   }
 
   python::requirements { "${home_dir}/workspace/mangrove/requirements.pip":
@@ -111,7 +109,7 @@ class datawinners ($user = 'mangrover', $group = 'mangrover', $database_name = '
     owner      => "${user}",
     group      => "${group}",
     require    => [
-      File["${home_dir}/workspace"],
+      Exec["workspace_ownership"],
       Package['postgresql-server-dev-9.1'],
       Package['libxml2-dev'],
       Class["datawinners::python"]],
