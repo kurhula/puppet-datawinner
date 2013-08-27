@@ -62,7 +62,12 @@ class datawinners::jenkins {
     require => Class['::python'],
   } ->
   exec {"create-jenkins-db-user":
-    command => "/usr/bin/createuser --super jenkins && /usr/bin/createdb testingdb",
+    command => '/usr/bin/psql postgres -tAc "SELECT 1 FROM pg_roles WHERE rolname=\'jenkins\'" | grep -q 1 || /usr/bin/createuser --super jenkins',
+    user => 'postgres',
+  } ->
+  exec {"create-jenkins-testing-db":
+    command => '/usr/bin/psql -l|grep testingdb>>/dev/null || /usr/bin/createdb testingdb',
+    user => 'postgres',
   } ->
   exec {"set_git_username":
     command => "/usr/bin/git config --global user.name Jenkins && /usr/bin/git config --global user.email 'jenkins@example.com'"
@@ -76,8 +81,7 @@ class datawinners::jenkins {
   #add git user name and email 
   
   datawinners::jenkins_job {"Mangrove-develop":} ->
-  datawinners::jenkins_job {"Datawinners-develop":}
-  
+  datawinners::jenkins_job {"Datawinners-develop":}->
   exec {"create_jenkins_key":
     command => "/usr/bin/ssh-keygen -t rsa -N '' -f /home/jenkins/.ssh/id_rsa",
     creates => "/home/jenkins/.ssh/id_rsa",
@@ -89,7 +93,8 @@ class datawinners::jenkins {
     creates => "/home/mangrover/.ssh/id_rsa"
   } -> exec {"add_jenkins_key_to_mangrover":
     command => "/bin/cat /home/jenkins/.ssh/id_rsa.pub>>/home/mangrover/.ssh/authorized_keys",
-  }
+    notify => Service["jenkins"]
+  } 
   package{"firefox":
     ensure => present,
   }
