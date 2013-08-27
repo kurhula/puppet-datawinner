@@ -81,6 +81,8 @@ class datawinners::jenkins {
   
   datawinners::jenkins_job {"Mangrove-develop":} ->
   datawinners::jenkins_job {"Datawinners-develop":}->
+  datawinners::jenkins_job {"Smoke_Test":}->
+  datawinners::jenkins_job {"Datawinners-functional-tests":}->
   exec {"create_jenkins_key":
     command => "/usr/bin/ssh-keygen -t rsa -N '' -f /home/jenkins/.ssh/id_rsa",
     creates => "/home/jenkins/.ssh/id_rsa",
