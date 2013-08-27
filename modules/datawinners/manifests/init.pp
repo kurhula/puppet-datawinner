@@ -69,7 +69,7 @@ class datawinners ($user = 'mangrover', $group = 'mangrover', $database_name = '
   vcsrepo { "${home_dir}/workspace/datawinners":
     ensure   => present,
     provider => git,
-    source   => 'git://github.com/mangroveorg/datawinners.git',
+    source   => 'https://github.com/mangroveorg/datawinners.git',
     owner    => "${user}",
     group    => "${group}",
     require  => File["${home_dir}"],
@@ -78,7 +78,16 @@ class datawinners ($user = 'mangrover', $group = 'mangrover', $database_name = '
   vcsrepo { "${home_dir}/workspace/mangrove":
     ensure   => present,
     provider => git,
-    source   => 'git://github.com/mangroveorg/mangrove.git',
+    source   => 'https://github.com/mangroveorg/mangrove.git',
+    owner    => "${user}",
+    group    => "${group}",
+    require  => File["${home_dir}"],
+  }
+  
+  vcsrepo { "${home_dir}/workspace/shape_files":
+    ensure   => present,
+    provider => git,
+    source   => 'https://github.com/mangroveorg/shape_files.git',
     owner    => "${user}",
     group    => "${group}",
     require  => File["${home_dir}"],
@@ -86,7 +95,7 @@ class datawinners ($user = 'mangrover', $group = 'mangrover', $database_name = '
   
   exec{"workspace_ownership":
     command => "/bin/chown -R ${user}:${group} ${home_dir}/workspace",
-    require => [Vcsrepo["${home_dir}/workspace/mangrove"], Vcsrepo["${home_dir}/workspace/datawinners"]],
+    require => [Vcsrepo["${home_dir}/workspace/mangrove"], Vcsrepo["${home_dir}/workspace/datawinners"], Vcsrepo["${home_dir}/workspace/shape_files"]],
   }
 
   package { "postgresql-server-dev-9.1": ensure => present, }
