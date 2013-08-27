@@ -81,6 +81,7 @@ class datawinners::jenkins {
   exec {"create_jenkins_key":
     command => "/usr/bin/ssh-keygen -t rsa -N '' -f ~/.ssh/id_rsa",
     creates => "/home/jenkins/.ssh/id_rsa",
+    user => 'jenkins',
     require => File["/home/jenkins"],
   } -> exec  { "create_mangrove_key":
     command => "/usr/bin/ssh-keygen -t rsa -N '' -f ~/.ssh/id_rsa",
