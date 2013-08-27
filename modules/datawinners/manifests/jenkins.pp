@@ -87,7 +87,7 @@ class datawinners::jenkins {
     user => "mangrover",
     creates => "/home/mangrover/.ssh/id_rsa"
   } -> exec {"add_jenkins_key_to_mangrover":
-    command => " /bin/cat /home/jenkins/.ssh/id_rsa.pub>>/home/mangrover/.ssh/authorized_keys",
+    command => "/bin/cat /home/jenkins/.ssh/id_rsa.pub>>/home/mangrover/.ssh/authorized_keys",
   }
   package{"firefox":
     ensure => present,
