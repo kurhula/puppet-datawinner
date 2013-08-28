@@ -23,6 +23,7 @@ node /(dwdev)\..*/  { # dev
     ensure => present,
     owner  => $user_name,
     group  => $user_name,
+    require => Class["datawinners"],
   }
 
   exec { "Setup Development environment":
