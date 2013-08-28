@@ -66,7 +66,7 @@ class datawinners::jenkins {
     user => 'postgres',
   } ->
   exec {"create-jenkins-testing-db":
-    command => '/usr/bin/psql -l|grep testingdb>>/dev/null || /usr/bin/createdb testingdb -T template_postgis',
+    command => '/usr/bin/psql -l|grep testingdb>>/dev/null || /usr/bin/createdb testingdb -T template0',
     user => 'postgres',
   } ->
   file {"/home/jenkins/.gitconfig":
