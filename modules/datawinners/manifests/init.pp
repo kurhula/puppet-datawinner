@@ -69,7 +69,7 @@ class datawinners ($user = 'mangrover', $group = 'mangrover', $database_name = '
   vcsrepo { "${home_dir}/workspace/datawinners":
     ensure   => present,
     provider => git,
-    source   => 'https://github.com/mangroveorg/datawinners.git',
+    source   => 'git://github.com/mangroveorg/datawinners.git',
     owner    => "${user}",
     group    => "${group}",
     require  => File["${home_dir}"],
@@ -78,7 +78,7 @@ class datawinners ($user = 'mangrover', $group = 'mangrover', $database_name = '
   vcsrepo { "${home_dir}/workspace/mangrove":
     ensure   => present,
     provider => git,
-    source   => 'https://github.com/mangroveorg/mangrove.git',
+    source   => 'git://github.com/mangroveorg/mangrove.git',
     owner    => "${user}",
     group    => "${group}",
     require  => File["${home_dir}"],
@@ -87,7 +87,7 @@ class datawinners ($user = 'mangrover', $group = 'mangrover', $database_name = '
   vcsrepo { "${home_dir}/workspace/shape_files":
     ensure   => present,
     provider => git,
-    source   => 'https://github.com/mangroveorg/shape_files.git',
+    source   => 'git://github.com/mangroveorg/shape_files.git',
     owner    => "${user}",
     group    => "${group}",
     require  => File["${home_dir}"],
