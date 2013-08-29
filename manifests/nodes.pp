@@ -54,7 +54,7 @@ node /(dwqa)\..*/ {
   class { "base_system": user_name => $user_name }
 
   file { "/home/${user_name}/workspace/datawinners/datawinners/local_settings.py":
-    source => "/home/${user_name}/workspace/datawinners/datawinners/config/local_settings_test.py",
+    source => "/home/${user_name}/workspace/datawinners/datawinners/config/local_settings_qa.py",
     ensure => present,
     owner  => $user_name,
     group  => $user_name,

@@ -77,8 +77,10 @@ class datawinners::jenkins {
   exec {"add_jenkins_to_mangrover_group":
     command => "/usr/sbin/usermod  -a -G mangrover jenkins",
   }
-  #add git user name and email 
-  
+  file {"/var/lib/jenkins/jobs":
+    ensure => directory,
+    owner => "jenkins",
+  }->
   datawinners::jenkins_job {"Mangrove-develop":} ->
   datawinners::jenkins_job {"Datawinners-develop":}->
   datawinners::jenkins_job {"Smoke_Test":}->
