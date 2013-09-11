@@ -10,6 +10,7 @@ class couchdb (
     shell      => '/bin/sh',
     home       => '/opt/apache-couchdb',
     require    => Group["couchdb"],
+    system     => true
   }
 
   $required_packages = [
