@@ -1,17 +1,3 @@
-define datawinners::jenkins_job () {
-  $job_name = $title
-  file { "/var/lib/jenkins/jobs/${job_name}":
-    ensure => directory,
-    owner  => 'jenkins'
-  }
-
-  file { "/var/lib/jenkins/jobs/${job_name}/config.xml":
-    source => "puppet:///datawinners/jenkins/jobs/${job_name}/config.xml",
-    ensure => "present",
-    owner  => "jenkins"
-  }
-}
-
 class datawinners::jenkins {
   package {"curl":
     ensure => present,
@@ -81,10 +67,6 @@ class datawinners::jenkins {
     ensure => directory,
     owner => "jenkins",
   }->
-  datawinners::jenkins_job {"Mangrove-develop":} ->
-  datawinners::jenkins_job {"Datawinners-develop":}->
-  datawinners::jenkins_job {"Smoke_Test":}->
-  datawinners::jenkins_job {"Datawinners-functional-tests":}->
   exec {"create_jenkins_key":
     command => "/usr/bin/ssh-keygen -t rsa -N '' -f /home/jenkins/.ssh/id_rsa",
     creates => "/home/jenkins/.ssh/id_rsa",
