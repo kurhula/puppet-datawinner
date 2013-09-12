@@ -367,6 +367,12 @@ cluster.name: <%=@fqdn%>
 index :
   analysis :
     analyzer :
+      sort_analyzer:
+        type : custom
+        tokenizer : lowercase
+        filter :
+        - asciifolding
+        char_filter : html_strip
       default_index :
         type : custom
         tokenizer : whitespace
