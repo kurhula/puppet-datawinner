@@ -27,7 +27,7 @@ class datawinners::birt_viewer (
   exec { 'link-custom-reports':
     path    => ['/usr/local/bin', '/usr/bin', '/bin',],
     cwd     => "/home/${user}/tomcat7/${tomcat_package_name}/webapps/${webapp_name}",
-    command => "ln -sf /home/workspace/custom_reports/crs /home/${user}/tomcat7/${tomcat_package_name}/webapps/${webapp_name}/crs",
+    command => "ln -sf /home/${user}/workspace/custom_reports/crs /home/${user}/tomcat7/${tomcat_package_name}/webapps/${webapp_name}/crs",
     user    => $user,
     require => Exec['unzip-birt-viewer'],
   }
