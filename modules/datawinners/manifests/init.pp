@@ -44,10 +44,13 @@ class datawinners ($user = 'mangrover', $group = 'mangrover', $database_name = '
     group => $group,
   }
 
+  $tomcat_installation_package = "apache-tomcat-7.0.42"
+  $tomcat_url = "http://www.us.apache.org/dist/tomcat/tomcat-7/v7.0.42/bin/${tomcat_installation_package}.tar.gz"
+
   class { "datawinners::tomcat":
     user    => $user,
     group   => $group,
-    url     => "http://www.us.apache.org/dist/tomcat/tomcat-7/v7.0.42/bin/apache-tomcat-7.0.42.tar.gz",
+    url     => $tomcat_url,
     require => Exec["java_installed"],
   }
 
@@ -91,6 +94,23 @@ class datawinners ($user = 'mangrover', $group = 'mangrover', $database_name = '
     owner    => "${user}",
     group    => "${group}",
     require  => File["${home_dir}"],
+  }
+  
+  vcsrepo { "${home_dir}/workspace/custom_reports":
+    ensure   => present,
+    provider => git,
+    source   => 'git://github.com/mangroveorg/custom_reports.git',
+    owner    => "${user}",
+    group    => "${group}",
+    require  => File["${home_dir}"],
+  }
+    
+  class { 'datawinners::birt_viewer':
+    home_dir            => $home_dir,
+    user                => $user,
+    group               => $group,
+    tomcat_package_name => $tomcat_installation_package,
+    require             => [Class['datawinners::tomcat'], VcsRepo["${home_dir}/workspace/custom_reports"]],
   }
   
   exec{"workspace_ownership":
