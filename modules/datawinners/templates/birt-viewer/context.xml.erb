@@ -1,0 +1,11 @@
+<Context>
+<Resource name="jdbc/postgres"
+       auth="Container"
+           type="javax.sql.DataSource"
+       maxActive="5" maxIdle="-1" maxWait="10000"
+       username="<%=@db_user%>" password="<%=@db_password%>"
+           driverClassName="org.postgresql.Driver"
+       url="jdbc:postgresql://localhost:5432/mangrove"
+       description=""/>
+
+</Context>
