@@ -29,7 +29,7 @@
 # Cluster name identifies your cluster for auto-discovery. If you're running
 # multiple clusters on the same network, make sure you're using unique names.
 #
-cluster.name: <%=@fqdn%>
+cluster.name: dwdev.dwdew
 
 
 #################################### Node #####################################
@@ -363,15 +363,15 @@ cluster.name: <%=@fqdn%>
 #monitor.jvm.gc.ConcurrentMarkSweep.info: 5s
 #monitor.jvm.gc.ConcurrentMarkSweep.debug: 2s
 
-
 index :
   analysis :
     analyzer :
       sort_analyzer:
         type : custom
-        tokenizer : lowercase
+        tokenizer : keyword
         filter :
         - asciifolding
+        - lowercase
         char_filter : html_strip
       default_index :
         type : custom
@@ -392,4 +392,3 @@ index :
       my_ngram:
         type: nGram
         max_gram: 50
-
