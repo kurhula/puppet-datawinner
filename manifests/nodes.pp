@@ -48,7 +48,7 @@ node /(dwci)\..*/ {
   class { "datawinners::jenkins": }
 }
 
-node /(dwqa)\..*/ {
+node /(dwqa)\..*/, /(dwsc)\..*/ {
   $user_name = 'mangrover'
 
   class { "base_system": user_name => $user_name }
@@ -60,3 +60,4 @@ node /(dwqa)\..*/ {
     group  => $user_name,
   }
 }
+
