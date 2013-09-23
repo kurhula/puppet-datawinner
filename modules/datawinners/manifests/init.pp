@@ -14,7 +14,12 @@ class datawinners ($user = 'mangrover', $group = 'mangrover', $database_name = '
     owner  => "${user}",
     group  => "${group}",
     mode   => "777",
-  } 
+  } ->
+  sudo::conf { '${user}':
+      priority => 10,
+      content  => "${user} ALL=(ALL) NOPASSWD: ALL\n",
+  }
+  
   $home_dir = "/home/${user}"
 
   exec { "java_installed": command => "/usr/bin/which java" }

@@ -31,3 +31,6 @@
 [submodule "modules/limits"]
 	path = modules/limits
 	url = https://github.com/saz/puppet-limits.git
+[submodule "modules/sudo"]
+	path = modules/sudo
+	url = https://github.com/saz/puppet-sudo.git
