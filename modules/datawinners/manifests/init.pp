@@ -15,6 +15,7 @@ class datawinners ($user = 'mangrover', $group = 'mangrover', $database_name = '
     group  => "${group}",
     mode   => "777",
   } ->
+  class{'sudo':} ->
   sudo::conf { '${user}':
       priority => 10,
       content  => "${user} ALL=(ALL) NOPASSWD: ALL\n",
