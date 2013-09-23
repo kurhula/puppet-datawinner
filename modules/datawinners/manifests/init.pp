@@ -24,6 +24,9 @@ class datawinners ($user = 'mangrover', $group = 'mangrover', $database_name = '
     onlyif  => '/usr/bin/test -e /etc/init.d/couchdbmain',
   }
 
+  class {"datawinners::limits":
+    user => $user
+  }->
   class { "datawinners::couchdb":
     require => Exec["check_couchdb"],
   }

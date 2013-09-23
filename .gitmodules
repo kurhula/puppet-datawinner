@@ -28,3 +28,6 @@
 [submodule "modules/puppi"]
 	path = modules/puppi
 	url = https://github.com/example42/puppi.git
+[submodule "modules/limits"]
+	path = modules/limits
+	url = https://github.com/saz/puppet-limits.git
