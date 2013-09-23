@@ -1,6 +1,6 @@
 define couchdb::instance (
   $service_name       = "couchdb",
-  $erl_max_ports      = "2048",
+  $erl_max_ports      = "8192",
   $bind_address       = "0.0.0.0",
   $port               = "5984",
   $timeout            = "43200",
