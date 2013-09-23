@@ -16,4 +16,15 @@ class datawinners::tomcat ($user, $group, $url) {
     group           => $group,
     require         => File["/home/${user}/tomcat7"],
   }
+  file { "/etc/init.d/tomcat":
+    ensure  => present,
+    content => template("datawinners/etc/init.d/tomcat.erb"),
+    owner   => $user,
+    group   => $group,
+    mode    => '755',
+  } ->
+  service { "tomcat":
+    ensure => running,
+    enable => true,
+  }
 }
