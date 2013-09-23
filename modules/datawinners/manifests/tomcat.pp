@@ -1,6 +1,6 @@
 
 class datawinners::tomcat ($user, $group, $url) {
-  $file_name = url_parse($url, 'filename')
+  $file_name = url_parse($url, 'filedir')
 
   file { "/home/${user}/tomcat7":
     ensure => directory,
