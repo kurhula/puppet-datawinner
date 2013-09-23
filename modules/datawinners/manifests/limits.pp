@@ -1,9 +1,8 @@
 
 
 class datawinners::limits($user){
-	limits {"limits":
-	      purge_limits_d_dir => false,
-	}
+  
+  limits::params::limits_dir="/etc/security"
 	
 	limits::limits { 'couchdb_nofile':
 	      ensure     => present,
@@ -21,9 +20,9 @@ class datawinners::limits($user){
 	      soft       => 65000,
 	}
   file { "/etc/pam.d/common-session":
-    content => template('datawinners/pam.d/common-session.erb')
+    content => template('datawinners/etc/pam.d/common-session.erb')
   }
   file { "/etc/pam.d/common-session-noninteractive":
-    content => template('datawinners/pam.d/common-session.erb')
+    content => template('datawinners/etc/pam.d/common-session.erb')
   }
 }
