@@ -1,6 +1,6 @@
 
 class datawinners::tomcat ($user, $group, $url) {
-  $file_name = regsubst(url_parse($url, 'filename'), 'tar.gz', '')
+  $file_name = regsubst(url_parse($url, 'filename'), '.tar.gz', '')
 
   file { "/home/${user}/tomcat7":
     ensure => directory,
