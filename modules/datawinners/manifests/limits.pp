@@ -1,9 +1,6 @@
 
 
 class datawinners::limits($user){
-  
-  limits::params::limits_dir="/etc/security"
-	
 	limits::limits { 'couchdb_nofile':
 	      ensure     => present,
 	      user       => 'couchdb',
