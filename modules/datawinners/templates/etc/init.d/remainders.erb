@@ -1,0 +1,69 @@
+#!/bin/sh
+
+### BEGIN INIT INFO
+# Provides:          remaninders
+# Required-Start:    $local_fs $remote_fs $uwsgi
+# Required-Stop:     $local_fs $remote_fs
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Datawinners remainder init script
+# Description:       Datawinners remainder service.
+### END INIT INFO
+
+SCRIPT_OK=0
+SCRIPT_ERROR=1
+
+DESCRIPTION="Remainders"
+NAME=remainders
+SCRIPT_NAME=`basename $0`
+USER_HOME=<%=@home_dir%>
+DW_HOME=$USER_HOME/workspace/datawinners
+PROCESS_NAME="supervisord"
+
+start_remainders () {
+	if [ `ps -ef | grep $PROCESS_NAME | wc -l` -ne 1 ]
+	then
+  		echo "Remainders (supervisord.scheduler) is already running"
+	else
+        echo "Starting $DESCRIPTION"
+	    . $USER_HOME/virtual_env/datawinners/bin/activate
+	    mkdir -p "$DW_HOME/datawinners/logs"
+	    cd $DW_HOME/datawinners
+	    supervisord -c ../deployment/supervisord.scheduler
+	fi
+}
+
+stop_remainders () {
+    echo "Trying to stop kill (supervisord.scheduler)"
+    ps -ef | grep $PROCESS_NAME | while read res ; do echo $res|cut -d" " -f2; done | xargs kill -9
+    echo "successfully killed"
+}
+
+restart_remainders () {
+    stop_remainders
+    start_remainders
+}
+
+parse_script_option_list () {
+    # Parse arguments passed to the script and take appropriate action.
+
+    case "$1" in
+        start)
+            start_remainders
+            ;;
+        restart)
+            restart_remainders
+            ;;
+        stop)
+            stop_remainders
+            ;;
+        *)
+            cat << EOF >&2
+Usage: $SCRIPT_NAME {start|stop}
+EOF
+            exit $SCRIPT_ERROR
+            ;;
+    esac
+}
+
+parse_script_option_list $@
