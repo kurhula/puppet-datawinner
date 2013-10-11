@@ -16,8 +16,8 @@ SCRIPT_ERROR=1
 DESCRIPTION="Remainders"
 NAME=remainders
 SCRIPT_NAME=`basename $0`
-USER_HOME=<%=@home_dir%>
-DW_HOME=$USER_HOME/workspace/datawinners
+export USER_HOME=<%=@home_dir%>
+export DW_HOME=$USER_HOME/workspace/datawinners
 PROCESS_NAME="supervisord"
 
 start_remainders () {
@@ -26,10 +26,8 @@ start_remainders () {
   		echo "Remainders (supervisord.scheduler) is already running"
 	else
         echo "Starting $DESCRIPTION"
-	    . $USER_HOME/virtual_env/datawinners/bin/activate
 	    mkdir -p "$DW_HOME/datawinners/logs"
-	    cd $DW_HOME/datawinners
-	    supervisord -c ../deployment/supervisord.scheduler
+	    sudo -u mangrover bash -c ". $USER_HOME/virtual_env/datawinners/bin/activate && cd $DW_HOME/datawinners && supervisord -c ../deployment/supervisord.scheduler"
 	fi
 }
 
