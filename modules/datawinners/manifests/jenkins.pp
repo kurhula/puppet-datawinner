@@ -89,4 +89,5 @@ class datawinners::jenkins {
     database => 'all',
     user => 'all',
   }
+  class{"datawinners::phantomjs": user => "mangrover"}
 }
