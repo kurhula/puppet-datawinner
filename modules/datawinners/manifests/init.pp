@@ -1,14 +1,17 @@
 
 class datawinners ($user = 'mangrover', $group = 'mangrover', $database_name = 'mangrove') {
   group { "${group}": ensure => "present", }
-
+  file {"/etc/environment":
+    ensure=>"present",
+    content=>"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games\nPYTHONPATH=/home/mangrover/workspace/datawinners/\n"    
+  } ->
   user { "${user}":
     ensure     => "present",
     managehome => true,
     gid        => "${group}",
     require    => Group["${group}"],
     shell      => "/bin/bash",
-  }->
+  } ->
   file { "/var/log/datawinners":
     ensure => directory,
     owner  => "${user}",
