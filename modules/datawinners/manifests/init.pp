@@ -178,4 +178,13 @@ class datawinners ($user = 'mangrover', $group = 'mangrover', $database_name = '
     owner      => "${user}",
     group      => "${group}",
   }
+  class { "datawinners::rabbitmq":
+    owner => "${user}",
+    group => "${group}"
+  }
+  class { "datawinners::celeryd":
+    home_dir => $home_dir,
+    owner => $user_name,
+    group => $user_name
+  }
 }
