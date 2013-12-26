@@ -174,10 +174,7 @@ class datawinners ($user = 'mangrover', $group = 'mangrover', $database_name = '
     package_location => 'http://nginx.org/download/nginx-1.2.9.tar.gz',
     package_name     => 'nginx-1.2.9'
   }
-  class { "datawinners::remainders":
-    owner      => "${user}",
-    group      => "${group}",
-  }
+
   class { "datawinners::rabbitmq":
     owner => "${user}",
     group => "${group}"

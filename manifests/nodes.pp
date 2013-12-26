@@ -48,7 +48,7 @@ node /(dwci)\..*/ {
   class { "datawinners::jenkins": }
 }
 
-node /.*(\.ec2\.).*/, /(dwqa)\..*/, /(dwprod)\..*/,default {
+node /.*(\.ec2\.).*/, /(dwqa)\..*/,default {
   $user_name = 'mangrover'
 
   class { "base_system": user_name => $user_name }
@@ -58,6 +58,18 @@ node /.*(\.ec2\.).*/, /(dwqa)\..*/, /(dwprod)\..*/,default {
     ensure => present,
     owner  => $user_name,
     group  => $user_name,
+  }
+}
+
+node  /(dwprod)\..*/ {
+   $user_name = 'mangrover'
+
+   class { "base_system": user_name => $user_name }
+   
+   class { "datawinners::reminders":
+    owner      => "${user_name}",
+    group      => "${user_name}",
+    require    => Exec["workspace_ownership"]
   }
 }
 

@@ -13,17 +13,17 @@
 SCRIPT_OK=0
 SCRIPT_ERROR=1
 
-DESCRIPTION="Remainders"
-NAME=remainders
+DESCRIPTION="Reminders"
+NAME=reminders
 SCRIPT_NAME=`basename $0`
 export USER_HOME=<%=@home_dir%>
 export DW_HOME=$USER_HOME/workspace/datawinners
 PROCESS_NAME="supervisord"
 
-start_remainders () {
+start_reminders () {
 	if [ `ps -ef | grep $PROCESS_NAME | wc -l` -ne 1 ]
 	then
-  		echo "Remainders (supervisord.scheduler) is already running"
+  		echo "Reminders (supervisord.scheduler) is already running"
 	else
         echo "Starting $DESCRIPTION"
 	    mkdir -p "$DW_HOME/datawinners/logs"
@@ -31,15 +31,15 @@ start_remainders () {
 	fi
 }
 
-stop_remainders () {
+stop_reminders () {
     echo "Trying to stop kill (supervisord.scheduler)"
     ps -ef | grep $PROCESS_NAME | while read res ; do echo $res|cut -d" " -f2; done | xargs kill -9
     echo "successfully killed"
 }
 
-restart_remainders () {
-    stop_remainders
-    start_remainders
+restart_reminders () {
+    stop_reminders
+    start_reminders
 }
 
 parse_script_option_list () {
@@ -47,13 +47,13 @@ parse_script_option_list () {
 
     case "$1" in
         start)
-            start_remainders
+            start_reminders
             ;;
         restart)
-            restart_remainders
+            restart_reminders
             ;;
         stop)
-            stop_remainders
+            stop_reminders
             ;;
         *)
             cat << EOF >&2
