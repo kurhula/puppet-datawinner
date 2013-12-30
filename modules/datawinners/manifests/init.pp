@@ -140,7 +140,10 @@ class datawinners ($user = 'mangrover', $group = 'mangrover', $database_name = '
     virtualenv => "${home_dir}/virtual_env/datawinners",
     owner      => "${user}",
     group      => "${group}",
-    require    => [Exec["workspace_ownership"], Python::Requirements["${home_dir}/workspace/mangrove/requirements.pip"]],
+    require    => [
+      Exec["workspace_ownership"],
+      Python::Requirements["${home_dir}/workspace/mangrove/requirements.pip"]
+    ],
   }
 
   python::requirements { "${home_dir}/workspace/mangrove/requirements.pip":
@@ -151,7 +154,9 @@ class datawinners ($user = 'mangrover', $group = 'mangrover', $database_name = '
       Exec["workspace_ownership"],
       Package['postgresql-server-dev-9.1'],
       Package['libxml2-dev'],
-      Class["datawinners::python"]],
+      Class["datawinners::python"],
+      Class["datawinners::memcached"]
+    ],
   }
 
   exec { "initialize-datawinners-environment":
@@ -179,9 +184,16 @@ class datawinners ($user = 'mangrover', $group = 'mangrover', $database_name = '
     owner => "${user}",
     group => "${group}"
   }
+
   class { "datawinners::celeryd":
     home_dir => $home_dir,
     owner => $user_name,
     group => $user_name
   }
+
+  class { "datawinners::memcached":
+    owner => $user_name,
+    group => $user_name
+  }
+
 }
