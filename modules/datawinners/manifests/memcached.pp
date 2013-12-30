@@ -6,7 +6,7 @@ class datawinners::memcached ($owner, $group) {
     destination_dir     => "/var/tmp",
     owner   => "${user}",
     group   => "${group}",
-    postextract_command => "/bin/sh -c \"cd /var/tmp/libevent-2.0.21-stable && ./configure && make && make install\""
+    postextract_command => "/bin/sh -c \"cd /var/tmp/libevent-2.0.21-stable && ./configure && make && sudo make install\""
   }->
 
   puppi::netinstall { "memcached":
@@ -15,7 +15,7 @@ class datawinners::memcached ($owner, $group) {
     destination_dir     => "/var/tmp",
     owner   => "${user}",
     group   => "${group}",
-    postextract_command => "/bin/sh -c \"cd /var/tmp/memcached-1.4.17 && ./configure && make && make install\""
+    postextract_command => "/bin/sh -c \"cd /var/tmp/memcached-1.4.17 && ./configure && make && sudo make install\""
   }->
 
   puppi::netinstall { "libmemcached":
@@ -24,6 +24,12 @@ class datawinners::memcached ($owner, $group) {
     destination_dir     => "/var/tmp",
     owner   => "${user}",
     group   => "${group}",
-    postextract_command => "/bin/sh -c \"cd /var/tmp/libmemcached-1.0.17 && ./configure && make && make install\""
+    postextract_command => "/bin/sh -c \"cd /var/tmp/libmemcached-1.0.17 && ./configure && make && sudo make install\"",
+    require             => Package["libcloog-ppl0"],
   }
+
+  package { "libcloog-ppl0":
+    ensure => 'present'
+  }
+
 }
