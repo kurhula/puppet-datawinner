@@ -144,14 +144,8 @@ class datawinners ($user = 'mangrover', $group = 'mangrover', $database_name = '
       Exec["workspace_ownership"],
       Python::Requirements["${home_dir}/workspace/mangrove/requirements.pip"]
     ],
-  } ->
+  } 
   
-  class { "datawinners::celeryd":
-    home_dir => $home_dir,
-    owner => $user_name,
-    group => $user_name,
-  }
-
   python::requirements { "${home_dir}/workspace/mangrove/requirements.pip":
     virtualenv => "${home_dir}/virtual_env/datawinners",
     owner      => "${user}",
@@ -190,7 +184,14 @@ class datawinners ($user = 'mangrover', $group = 'mangrover', $database_name = '
     owner => "${user}",
     group => "${group}"
   }
- 
+
+  class { "datawinners::celeryd":
+    home_dir => $home_dir,
+    owner => $user_name,
+    group => $user_name,
+    require => Python::Requirements["${home_dir}/workspace/datawinners/requirements.pip"]
+  }
+  
   class { "datawinners::memcached":
     owner => $user_name,
     group => $user_name

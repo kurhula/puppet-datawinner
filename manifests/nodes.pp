@@ -7,6 +7,7 @@ class base_system ($user_name = 'mangrover') {
 
   exec { "install_mangrove_egg":
     cwd       => "/home/${user_name}/workspace/mangrove/",
+    user      => "${user_name}",
     command   => "/bin/sh -c \". /home/${user_name}/virtual_env/datawinners/bin/activate && cd /home/${user_name}/workspace/mangrove && /home/${user_name}/virtual_env/datawinners/bin/python  /home/${user_name}/workspace/mangrove/setup.py develop\"",
     logoutput => "on_failure",
     require   => Class["datawinners"],
