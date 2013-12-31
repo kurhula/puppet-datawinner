@@ -13,7 +13,8 @@ class datawinners::celeryd ($home_dir, $owner, $group) {
     owner  => "${owner}",
     group  => "${group}",
     mode    => '755',
-  } ->
+    notify => Service["celeryd"] 
+  } 
   service { 'celeryd':
     ensure => 'running',
     enable => true,

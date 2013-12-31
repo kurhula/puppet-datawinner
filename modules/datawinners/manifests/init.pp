@@ -188,9 +188,10 @@ class datawinners ($user = 'mangrover', $group = 'mangrover', $database_name = '
   class { "datawinners::celeryd":
     home_dir => $home_dir,
     owner => $user_name,
-    group => $user_name
+    group => $user_name,
   }
 
+  
   class { "datawinners::memcached":
     owner => $user_name,
     group => $user_name
