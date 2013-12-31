@@ -55,7 +55,7 @@ class datawinners ($user = 'mangrover', $group = 'mangrover', $database_name = '
   }
 
   $tomcat_installation_package = "apache-tomcat-7.0.42"
-  $tomcat_url = "http://www.us.apache.org/dist/tomcat/tomcat-7/v7.0.42/bin/${tomcat_installation_package}.tar.gz"
+  $tomcat_url = "http://archive.apache.org/dist/tomcat/tomcat-7/v7.0.42/bin/${tomcat_installation_package}.tar.gz"
 
   class { "datawinners::tomcat":
     user    => $user,
