@@ -26,6 +26,35 @@ class datawinners::memcached ($owner, $group) {
     group   => "${group}",
     postextract_command => "/bin/sh -c \"cd /var/tmp/libmemcached-1.0.17 && ./configure && make && sudo make install\"",
     require             => Package["libcloog-ppl0"],
+  }->
+
+  file { "/etc/init.d/memcached":
+    ensure  => present,
+    content => template("datawinners/etc/init.d/memcached.erb"),
+    owner  => "${owner}",
+    group  => "${group}",
+    mode    => '755',
+  } ->
+
+  file { "/etc/default/start-memcached":
+    ensure  => present,
+    content => template("datawinners/memcached/start-memcached.erb"),
+    owner  => "${owner}",
+    group  => "${group}",
+    mode    => '755',
+  } ->
+
+  file { "/etc/default/memcached":
+    ensure  => present,
+    content => template("datawinners/etc/default/memcached.erb"),
+    owner  => "${owner}",
+    group  => "${group}",
+    mode    => '755',
+  } ->
+
+  service { 'memcached':
+    ensure => 'running',
+    enable => true,
   }
 
   package { "libcloog-ppl0":
