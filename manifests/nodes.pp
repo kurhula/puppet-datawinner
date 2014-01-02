@@ -49,7 +49,7 @@ node /(dwci)\..*/ {
   class { "datawinners::jenkins": }
 }
 
-node /.*(\.ec2\.).*/, /(uat)\..*/, /(dwqa)\..*/, /(dwprod)\..*/,default {
+node /.*(\.ec2\.).*/, /(uat)\..*/, /(dwqa)\..*/,default {
   $user_name = 'mangrover'
 
   class { "base_system": user_name => $user_name }
