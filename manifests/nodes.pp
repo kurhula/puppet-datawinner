@@ -4,14 +4,6 @@ class base_system ($user_name = 'mangrover') {
     user  => $user_name,
     group => $user_name,
   }
-
-  exec { "install_mangrove_egg":
-    cwd       => "/home/${user_name}/workspace/mangrove/",
-    user      => "${user_name}",
-    command   => "/bin/sh -c \". /home/${user_name}/virtual_env/datawinners/bin/activate && cd /home/${user_name}/workspace/mangrove && /home/${user_name}/virtual_env/datawinners/bin/python  /home/${user_name}/workspace/mangrove/setup.py develop\"",
-    logoutput => "on_failure",
-    require   => Class["datawinners"],
-  }
 }
 
 node /(dwdev)\..*/ { # dev
@@ -37,8 +29,8 @@ node /(dwdev)\..*/ { # dev
     timeout   => 1000,
     require   => [
       Exec["initialize-datawinners-environment"],
-      File["/home/${user_name}/workspace/datawinners/datawinners/local_settings.py"],
-      Exec["install_mangrove_egg"]],
+      File["/home/${user_name}/workspace/datawinners/datawinners/local_settings.py"]
+      ],
     notify    => Service["uwsgi"],
   }
 }
