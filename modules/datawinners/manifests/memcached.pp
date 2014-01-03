@@ -24,7 +24,7 @@ class datawinners::memcached ($owner, $group) {
     destination_dir     => "/var/tmp",
     owner   => "${owner}",
     group   => "${group}",
-    postextract_command => "/bin/sh -c \"cd /var/tmp/libmemcached-1.0.17 && ./configure && make && sudo make install\"",
+    postextract_command => "/bin/sh -c \"cd /var/tmp/libmemcached-1.0.17 && ./configure --prefix=/usr/lib && make && sudo make install\"",
     require             => Package["libcloog-ppl0"],
   }->
 
