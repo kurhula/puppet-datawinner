@@ -87,15 +87,6 @@ class datawinners ($user = 'mangrover', $group = 'mangrover', $database_name = '
     group    => "${group}",
     require  => File["${home_dir}"],
   }
-
-  vcsrepo { "${home_dir}/workspace/mangrove":
-    ensure   => present,
-    provider => git,
-    source   => 'git://github.com/mangroveorg/mangrove.git',
-    owner    => "${user}",
-    group    => "${group}",
-    require  => File["${home_dir}"],
-  }
   
   vcsrepo { "${home_dir}/workspace/shape_files":
     ensure   => present,
@@ -125,7 +116,7 @@ class datawinners ($user = 'mangrover', $group = 'mangrover', $database_name = '
   
   exec{"workspace_ownership":
     command => "/bin/chown -R ${user}:${group} ${home_dir}/workspace",
-    require => [Vcsrepo["${home_dir}/workspace/mangrove"], Vcsrepo["${home_dir}/workspace/datawinners"], Vcsrepo["${home_dir}/workspace/shape_files"]],
+    require => [Vcsrepo["${home_dir}/workspace/datawinners"], Vcsrepo["${home_dir}/workspace/shape_files"]],
   }
 
   package { "postgresql-server-dev-9.1": ensure => present, }
@@ -142,23 +133,13 @@ class datawinners ($user = 'mangrover', $group = 'mangrover', $database_name = '
     group      => "${group}",
     require    => [
       Exec["workspace_ownership"],
-      Python::Requirements["${home_dir}/workspace/mangrove/requirements.pip"]
-    ],
-  } 
-  
-  python::requirements { "${home_dir}/workspace/mangrove/requirements.pip":
-    virtualenv => "${home_dir}/virtual_env/datawinners",
-    owner      => "${user}",
-    group      => "${group}",
-    require    => [
-      Exec["workspace_ownership"],
       Package['postgresql-server-dev-9.1'],
       Package['libxml2-dev'],
       Class["datawinners::python"],
       Class["datawinners::memcached"]
     ],
-  }
-
+  } 
+  
   exec { "initialize-datawinners-environment":
     command => "${home_dir}/workspace/datawinners/init_ubuntu_12.04.sh",
     user      => $user,
