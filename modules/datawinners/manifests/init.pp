@@ -127,11 +127,12 @@ class datawinners ($user = 'mangrover', $group = 'mangrover', $database_name = '
 
   package { "postgresql-9.1-postgis": ensure => present, }
 
-  python::requirements { "${home_dir}/workspace/datawinners/requirements.pip":
+  python::requirements { "/var/tmp/dw_requirements.pip":
     virtualenv => "${home_dir}/virtual_env/datawinners",
     owner      => "${user}",
     group      => "${group}",
     require    => [
+      Exec["get_dw_requirement_pip"],
       Exec["workspace_ownership"],
       Package['postgresql-server-dev-9.1'],
       Package['libxml2-dev'],
@@ -144,10 +145,16 @@ class datawinners ($user = 'mangrover', $group = 'mangrover', $database_name = '
     command => "${home_dir}/workspace/datawinners/init_ubuntu_12.04.sh",
     user      => $user,
     logoutput => "on_failure",
-    require   => [Python::Requirements["${home_dir}/workspace/datawinners/requirements.pip"], Class["datawinners::postgres"]],
+    require   => [Python::Requirements["/var/tmp/dw_requirements.pip"], Class["datawinners::postgres"]],
   }
 
   file { "/home/${user}/google": ensure => directory }
+  
+  exec{"get_dw_requirement_pip":
+    command => "/usr/bin/wget https://raw.github.com/mangroveorg/datawinners/develop/requirements.pip -O /var/tmp/dw_requirements.pip",
+    user => $user,
+    
+  }
 
   file { "${home_dir}/google/google3756418eb1f4bb6c.html":
     content => "google3756418eb1f4bb6c.html",
@@ -170,7 +177,7 @@ class datawinners ($user = 'mangrover', $group = 'mangrover', $database_name = '
     home_dir => $home_dir,
     owner => $user_name,
     group => $user_name,
-    require => Python::Requirements["${home_dir}/workspace/datawinners/requirements.pip"]
+    require => Python::Requirements["/var/tmp/dw_requirements.pip"]
   }
   
   class { "datawinners::memcached":
