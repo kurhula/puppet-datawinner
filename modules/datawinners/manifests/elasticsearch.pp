@@ -19,11 +19,11 @@ class datawinners::elasticsearch ($url) {
   file { "/etc/elasticsearch/elasticsearch.yml":
     content => template('datawinners/etc/elasticsearch/elasticsearch.yml.erb'),
     require => Package["elasticsearch-install"],
+    notify => Service["elasticsearch"]
   }
 
   service { "elasticsearch":
     ensure  => running,
     enable  => true,
-    require => File['/etc/elasticsearch/elasticsearch.yml'],
   }
 }
