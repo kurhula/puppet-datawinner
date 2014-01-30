@@ -1,7 +1,7 @@
 class datawinners::nginx_config ($home_dir, $package_location, $package_name) {
   $required_packages = ['build-essential', 'libpcre3-dev', 'zlib1g-dev']
 
-  if $hostname =~ /(dwprod)\..*/ {
+  if $hostname =~ /dwprod/ {
     $domain_name = "www.datawinners.com"
   } else {
     $domain_name = "localhost"
