@@ -6,7 +6,7 @@ class datawinners::nginx_config ($home_dir, $package_location, $package_name) {
   } else {
     $domain_name = "localhost"
   }
-  notice("Using domain name  $")
+  notice("Using domain name  $domain_name")
   
   package { $required_packages: ensure => 'present', }
   group { "nginx": ensure => present } ->
