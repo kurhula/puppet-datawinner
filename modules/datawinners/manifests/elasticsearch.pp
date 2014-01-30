@@ -17,6 +17,7 @@ class datawinners::elasticsearch ($url) {
   } 
   file { "/etc/init.d/elasticsearch":
     content => template('datawinners/etc/init.d/elasticsearch.erb'),
+    mode => 755,
     require => Package["elasticsearch-install"],
   }
 
