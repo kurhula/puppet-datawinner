@@ -14,11 +14,15 @@ class datawinners::elasticsearch ($url) {
     source   => "/var/tmp/${elasticsearch_package}",
     provider => dpkg,
     require  => Exec['download-elasticsearch'],
+  } 
+  file { "/etc/init.d/elasticsearch":
+    content => template('datawinners/etc/init.d/elasticsearch.erb'),
+    require => Package["elasticsearch-install"],
   }
 
   file { "/etc/elasticsearch/elasticsearch.yml":
     content => template('datawinners/etc/elasticsearch/elasticsearch.yml.erb'),
-    require => Package["elasticsearch-install"],
+    require => [Package["elasticsearch-install"],File['/etc/init.d/elasticsearch']],
     notify => Service["elasticsearch"]
   }
 
