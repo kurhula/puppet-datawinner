@@ -56,6 +56,7 @@ node /.*(\.ec2\.).*/, /(uat)\..*/, /(dwqa)\..*/,default {
 
 node  /(dwprod)\..*/ {
    $user_name = 'mangrover'
+   notice ("Setting up production environment using $user_name as application user")
 
    class { "base_system": user_name => $user_name }
    
