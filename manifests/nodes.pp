@@ -41,9 +41,9 @@ node /(dwci)\..*/ {
   class { "datawinners::jenkins": }
 }
 
-node /.*(\.ec2\.).*/, /(uat)\..*/, /(dwqa)\..*/,default {
+node /(uat)\..*/, /(dwqa)\..*/,default {
   $user_name = 'mangrover'
-
+  notice ("Setting up TEST environment using $user_name as application user")
   class { "base_system": user_name => $user_name }
 
   file { "/home/${user_name}/workspace/datawinners/datawinners/local_settings.py":
