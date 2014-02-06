@@ -24,14 +24,19 @@ server {
          }
 
         location /birt-viewer {
-                error_page 302 @notcrsuser;
-                if ($cookie_CRS_SESSION_ID  != $cookie_SESSIONID){
-
-                       return 302;
-                }
-                proxy_pass http://localhost:8080;
-                proxy_set_header HOST $host:80;
-
+           error_page 302 @notcrsuser;
+           set $redirect_to_crs 0;
+          if ($cookie_SESSIONID) {
+						 set $redirect_to_crs 1;		
+			   	}
+			  	if ($cookie_CRS_SESSION_ID != $cookie_SESSIONID) {			
+				     set $redirect_to_crs 0;
+			  	}
+				  if ($redirect_to_crs = 0) {
+     		     return 302;		    
+				  }
+			   	proxy_pass http://localhost:8080;
+          proxy_set_header HOST $host:80;   	
         }
 
         location @notcrsuser{
