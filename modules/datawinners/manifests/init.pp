@@ -185,4 +185,18 @@ class datawinners ($user = 'mangrover', $group = 'mangrover', $database_name = '
     group => $user_name
   }
 
+  file { "/etc/pam.d/common-session":
+    content => template('datawinners/etc/pam.d/common-session.erb')
+  }
+  file { "/etc/pam.d/common-session-noninteractive":
+    content => template('datawinners/etc/pam.d/common-session.erb')
+  }
+
+  limits::limits { "${user}_nofile":
+        ensure     => present,
+        user       => "${user}",
+        limit_type => 'nofile',
+        hard       => 65000,
+        soft       => 65000,
+  }
 }

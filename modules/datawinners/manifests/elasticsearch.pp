@@ -31,4 +31,12 @@ class datawinners::elasticsearch ($url) {
     ensure  => running,
     enable  => true,
   }
+
+  limits::limits { "elasticsearch_nofile":
+        ensure     => present,
+        user       => "elasticsearch",
+        limit_type => 'nofile',
+        hard       => 65000,
+        soft       => 65000,
+  }
 }
