@@ -42,7 +42,7 @@ if [ -r "${FILES[0]}" ]; then
   for FILE in "${FILES[@]}";
   do
     # remove prefix
-    NAME=${FILE#/etc/}
+    NAME=${FILE#/etc/default}
     # remove suffix
     NAME=${NAME%.conf}
 
