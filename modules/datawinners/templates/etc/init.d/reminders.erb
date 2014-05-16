@@ -33,7 +33,7 @@ start_reminders () {
 
 stop_reminders () {
     echo "Trying to stop kill (supervisord.scheduler)"
-    ps -ef | grep $PROCESS_NAME | while read res ; do echo $res|cut -d" " -f2; done | xargs kill -9
+    ps -ef | grep $PROCESS_NAME | while read res ; do echo $res|cut -d" " -f2; done | xargs kill
     echo "successfully killed"
 }
 
