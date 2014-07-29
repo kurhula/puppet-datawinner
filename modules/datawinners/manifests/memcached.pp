@@ -2,7 +2,7 @@ class datawinners::memcached ($owner, $group) {
 
   puppi::netinstall { "libevent":
     path                => '/usr/local/bin:/bin:/sbin:/usr/bin:/usr/sbin',
-    url                 => "https://github.com/downloads/libevent/libevent/libevent-2.0.21-stable.tar.gz",
+    url                 => "https://github.com/mangroveorg/dwpkg/raw/master/memcached/libevent-2.0.21-stable.tar.gz",
     destination_dir     => "/var/tmp",
     owner   => "${owner}",
     group   => "${group}",
