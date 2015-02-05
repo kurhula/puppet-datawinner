@@ -125,6 +125,8 @@ class datawinners ($user = 'mangrover', $group = 'mangrover', $database_name = '
 
   package { "libxml2-dev": ensure => present }
 
+  package { "libjpeg-dev": ensure => present }
+
   package { "postgresql-9.1-postgis": ensure => present, }
 
   python::requirements { "/var/tmp/dw_requirements.pip":
