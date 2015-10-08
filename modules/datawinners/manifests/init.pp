@@ -65,7 +65,7 @@ class datawinners ($user = 'mangrover', $group = 'mangrover', $database_name = '
   }
 
   class { "datawinners::elasticsearch":
-    url     => "https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-0.90.7.deb",
+    url     => "https://download.elastic.co/elasticsearch/elasticsearch/elasticsearch-1.7.2.deb",
     require => Exec["java_installed"],
   }
 
